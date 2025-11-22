@@ -60,12 +60,6 @@ npm run dev
 
 ---
 
-## **🛠️ Roadmap**
-
-* [ ] Mobile app version
-
----
-
 ## **📄 License**
 
 MIT License.
