@@ -1,5 +1,5 @@
 import React from 'react'
-import { getCurrencyList } from '@/src/services/currency.services';
+import { getCurrencyList } from '@/services/Currency.services';
 import Register from '@/src/views/Register';
 
 export default async function Page() {

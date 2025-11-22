@@ -4,19 +4,19 @@ import { HydratedDocument } from 'mongoose';
 export type UserDocument = HydratedDocument<User>;
 
 @Schema()
-export class User  {
-    @Prop({ required: true, })
+export class User {
+    @Prop({ required: true, unique: true, lowercase: true, trim: true })
     name: string;
 
-    @Prop({ required: true, unique: true })
-    email: string;
-
-    @Prop({ required: true, select: false })
+    @Prop({ required: true, select: false, minlength: 6 })
     password: string;
 
 
     @Prop({ required: false })
     role: Array<string>;
+
+    @Prop({ required: true })
+    currency: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

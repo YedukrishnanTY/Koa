@@ -1,0 +1,7 @@
+import Login from '@/src/views/Login';
+import React from 'react'
+
+export default async function Page() {
+
+  return <Login />;
+}

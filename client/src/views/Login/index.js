@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 import { signup } from '@/services/Auth.services'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { toast } from 'sonner';
@@ -53,8 +54,7 @@ function Register({ currencyList = [] }) {
             <div className='w-full md:w-1/2 lg:w-1/3 p-4 mx-auto mt-20'>
                 <div className='p-5 rounded-lg shadow-lg flex flex-col gap-8' style={{ background: palettes.dark[800], color: palettes.primary[400] }}>
                     <div className='flex flex-col gap-2 '>
-                        <h2 className='text-2xl font-bold' style={{ color: palettes.primary[400] }} >Create an account</h2>
-                        <h5 className='text-sm' style={{ color: palettes.light[50] }}>Please fill in the information below:</h5>
+                        <h2 className='text-2xl font-bold' style={{ color: palettes.primary[400] }} >Welcome</h2>
                     </div>
                     <div className='flex flex-col gap-5'>
                         <Form onSubmit={handleSubmit}>
@@ -80,42 +80,21 @@ function Register({ currencyList = [] }) {
                                     required
                                 />
                             </div>
-
-                            <div className='w-full mb-6'>
-                                <Select onValueChange={setSelectedCurrency} value={selectedCurrency} required>
-                                    <SelectTrigger
-                                        className='w-full p-5 rounded-sm'
-                                        style={{ background: palettes.dark[800], color: palettes.light[50] }}>
-                                        <SelectValue placeholder="Select Currency" />
-                                    </SelectTrigger>
-                                    <SelectContent className='w-full'>
-                                        <SelectGroup>
-                                            <SelectLabel>Currency</SelectLabel>
-                                            {currencyList.map((currency) => (
-                                                <SelectItem key={currency.code} value={currency.code}>
-                                                    {currency.name} ({currency.code})
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            </div>
                             <div className='flex items-center justify-between'>
                                 <Button onClick={handleSubmit} type='submit' className='w-full font-bold' style={{
                                     backgroundColor: palettes.primary[400],
                                     color: palettes.slate[100]
                                 }}>
-                                    Register
+                                    Login
                                 </Button>
                             </div>
                         </Form>
-
-                        <div className='mt-4 p-3 border rounded-md' style={{ borderColor: palettes.slate[700] }}>
-                            <p className='text-xs' style={{ color: palettes.light[50] }}>
-                                ⚠️ <strong>Disclaimer:</strong> Please remember your <strong>User Name</strong> and <strong>Password</strong>.
-                                In this initial phase, the password <strong>cannot be reset</strong> if forgotten.
-                            </p>
-
+                        <div className='flex flex-col gap-2 '>
+                            <h5 className='text-sm' style={{ color: palettes.light[50] }}>Don't have an account?
+                                <Link style={{
+                                    color: palettes.primary[400],
+                                }}
+                                    href={'/register'}> Sign up </Link></h5>
                         </div>
                     </div>
                 </div>

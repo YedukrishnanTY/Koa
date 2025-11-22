@@ -1,4 +1,5 @@
-import getHeaders from "../../common/getHeaders";
+import { handleResponse } from "@/common/handleResponse";
+import getHeaders from "../common/getHeaders";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const getCurrencyList = async () => {
@@ -8,12 +9,8 @@ export const getCurrencyList = async () => {
             headers: getHeaders(),
             credentials: 'include',
         });
-
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return data;
+        const result = handleResponse(response);
+        return result;
     } catch (error) {
         console.error('Failed to fetch currency list:', error);
         throw error;
