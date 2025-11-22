@@ -1,9 +1,7 @@
 ---
-
 # **Koa — Personal Expense & Subscription Tracker**
 
 **Koa** is a reliable and intuitive application designed to help you clearly log, categorize, and understand your personal spending. Whether you want to track daily expenses, monitor monthly budgets, or stay on top of recurring subscriptions, **Koa** keeps everything organized in one place.
-
 ---
 
 ## **✨ Features**
