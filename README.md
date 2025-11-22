@@ -1,2 +1,79 @@
-# Koa
-This is a reliable application designed for clear, easy logging and categorization of all your personal spending.
+---
+
+# **Koa — Personal Expense & Subscription Tracker**
+
+**Koa** is a reliable and intuitive application designed to help you clearly log, categorize, and understand your personal spending. Whether you want to track daily expenses, monitor monthly budgets, or stay on top of recurring subscriptions, **Koa** keeps everything organized in one place.
+
+---
+
+## **✨ Features**
+
+### **💰 Expense Tracking**
+
+* Log every transaction with ease.
+* Categorize expenses (Food, Travel, Bills, Shopping, etc.).
+* Add notes, payment method, and timestamps to each entry.
+* View past spending history anytime.
+
+### **📊 Smart Analytics**
+
+* Monthly and weekly spending overviews.
+* Category-wise breakdowns with charts and insights.
+* Identify spending trends and patterns.
+* Budget meter to track how close you are to your limit.
+
+### **🔄 Subscription Tracker**
+
+* Track all your recurring expenses (Netflix, Spotify, rent, etc.).
+* Get reminders before subscription renewals.
+* Auto-calculate monthly & yearly subscription totals.
+* Mark subscriptions as active, paused, or cancelled.
+
+### **🪪 User-Friendly Interface**
+
+* Clean, minimal UI for quick access to your data.
+* Fully responsive across devices.
+
+### **☁️ Data Persistence**
+
+* Sync your data across devices.
+* Secure storage and auto-backup options.
+
+---
+
+## **🚀 Tech Stack**
+
+*(Modify based on your actual setup)*
+
+* **Frontend:** Next.js / React
+* **Backend:** Node.js / NestJS / MongoDB
+* **Styling:** Tailwind CSS
+* **Auth:** JWT / OAuth
+* **Charts:** Chart.js / Recharts
+
+---
+
+## **📦 Installation**
+
+```bash
+git clone https://github.com/YedukrishnanTY/Koa
+cd koa
+npm install
+npm run dev
+```
+
+---
+
+## **🛠️ Roadmap**
+
+* [ ] Mobile app version
+
+---
+
+## **📄 License**
+
+MIT License.
+
+---
+
+If you want, I can make a **shorter version**, an **ultra-professional version**, or a **GitHub-optimised README with badges, screenshots, and sections**.
