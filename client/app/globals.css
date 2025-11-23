@@ -133,3 +133,52 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+/*
+ * Base styles (Mobile - Bottom Sheet)
+ * Apply these styles to the DialogContent when the screen is small.
+ * This is the 'bottom sheet' look.
+ */
+.responsive-dialog {
+  /* Positioning and size for bottom sheet */
+  position: fixed !important;
+  top: auto !important; /* Override the default top positioning */
+  bottom: 0 !important;
+  left: 50% !important; /* Center horizontally */
+  transform: translateX(-50%) !important; /* Center horizontally */
+  margin: 0 !important; /* Remove default margin */
+  
+  width: 100% !important; /* Full width */
+  max-width: 500px !important; /* Max width for slightly larger mobiles/tablets */
+  height: auto !important; /* Adjust height based on content */
+  max-height: 80vh; /* Max height to prevent it from covering the whole screen */
+
+  /* Optional: Mobile-style corner radius (top only) */
+  border-radius: 12px 12px 0 0 !important;
+}
+
+/*
+ * Desktop styles (Sidebar)
+ * Apply these styles only when the screen size is larger (e.g., > 768px).
+ * This is the 'sidebar' look.
+ */
+@media (min-width: 768px) {
+  .responsive-dialog {
+    /* Positioning and size for sidebar */
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important; /* Fixed to the left side */
+    transform: none !important; /* Reset transform */
+    margin: 0 !important;
+
+    width: 300px !important; /* Fixed width for the sidebar */
+    max-width: 300px !important; 
+    height: 100vh !important; /* Full vertical height */
+    max-height: 100vh !important;
+
+    /* Optional: Desktop-style corner radius */
+    border-radius: 0 !important; /* No rounded corners */
+  }
+}

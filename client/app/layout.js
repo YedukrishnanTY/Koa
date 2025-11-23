@@ -1,8 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { palettes } from "@/common/palettes";
-import Header from "@/layout/Header";
-import Toaster from "@/layout/Toaster";
+import Main from "@/layout/main";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,16 +18,14 @@ export const metadata = {
   description: "Track and manage your expenses effortlessly.",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, ...props }) {
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
         style={{ background: palettes.dark[900] }}
       >
-        <Header />
-        {children}
-        <Toaster />
+        <Main children={children} props={props} />
       </body>
     </html>
   );
