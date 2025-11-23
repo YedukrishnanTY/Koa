@@ -9,7 +9,7 @@ const AccountItem = ({ account, currency, onClick }) => {
     }).format(account.balance);
 
     return (
-        <div onClick={onClick} className="flex items-center justify-between p-3 rounded-lg transition-colors hover:bg-gray-700/50 cursor-pointer">
+        <div onClick={() => { onClick(account, 'edit') }} className="flex items-center justify-between p-3 rounded-lg transition-colors hover:bg-gray-700/50 cursor-pointer">
             <div className="flex items-center space-x-3">
                 <div className="p-2 bg-gray-600/50 rounded-full">
                     <Icon name={account.icon} className="w-4 h-4" />

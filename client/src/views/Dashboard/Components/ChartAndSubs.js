@@ -1,6 +1,5 @@
 import { palettes } from '@/common/palettes';
-import { Icon } from '@/lib/utils';
-import { AddAccount, getAccountslist } from '@/services/Accounts.services';
+import { AddAccount, EditAccount, getAccountslist } from '@/services/Accounts.services';
 import React from 'react'
 
 import {
@@ -11,12 +10,9 @@ import {
     YAxis,
     Tooltip,
     CartesianGrid,
-    BarChart,
-    Bar,
 } from 'recharts';
 import { toast } from 'sonner';
 import Addmodal from './Addmodal';
-import { Button } from '@/components/ui/button';
 import AddAccountItem from './AddAccountItem';
 import AccountItem from './AccountItem';
 
@@ -35,6 +31,7 @@ const balanceData = [
 function ChartAndSubs({ currencyList, profile }) {
     const [accounts, setAccounts] = React.useState([]);
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+    const [editDetails, setEditDetails] = React.useState({});
 
     const getList = async () => {
         await getAccountslist()
@@ -45,18 +42,35 @@ function ChartAndSubs({ currencyList, profile }) {
                 toast.error(err?.message || 'failed to fetch')
             })
     }
-    const handleOpenModal = () => {
-        setIsDialogOpen(true)
+    const handleOpenModal = (account, type) => {
+        if (type !== 'edit') {
+            setIsDialogOpen(true)
+            return
+        } else {
+            setIsDialogOpen(true)
+            setEditDetails(account)
+
+        }
     };
 
     const handleAddAccount = async (payload) => {
-        AddAccount(payload)
-            .then(res => {
-                toast.success('added successfully')
-                getList();
-            }).catch(err => {
-                toast.error(err?.message || 'failed to add')
-            })
+        if (editDetails?._id) {
+            EditAccount(payload)
+                .then(res => {
+                    toast.success('Edited successfully')
+                    getList();
+                }).catch(err => {
+                    toast.error(err?.message || 'failed to add')
+                })
+        } else {
+            AddAccount(payload)
+                .then(res => {
+                    toast.success('added successfully')
+                    getList();
+                }).catch(err => {
+                    toast.error(err?.message || 'failed to add')
+                })
+        }
     };
     React.useEffect(() => {
         getList();
@@ -126,7 +140,7 @@ function ChartAndSubs({ currencyList, profile }) {
                 <Addmodal
                     isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)}
                     currencyList={currencyList} profile={profile}
-                    onSave={handleAddAccount}
+                    onSave={handleAddAccount} editDetails={editDetails}
                 />
             </div>
         </section>

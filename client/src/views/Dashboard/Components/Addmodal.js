@@ -8,7 +8,7 @@ import { palettes } from "@/common/palettes";
 import { Icon } from "@/lib/utils";
 
 
-export default function AddModal({ isOpen, onClose, onSave, currencyList, profile }) {
+export default function AddModal({ isOpen, onClose, onSave, currencyList, profile, editDetails }) {
     const [name, setName] = React.useState("");
     const [balance, setBalance] = React.useState("");
     const [selectedCurrency, setSelectedCurrency] = React.useState(profile?.currency || '');
@@ -44,6 +44,15 @@ export default function AddModal({ isOpen, onClose, onSave, currencyList, profil
     const handleOpenChange = (open) => {
         if (!open) onClose();
     };
+
+    React.useEffect(() => {
+        if (editDetails?._id) {
+            setName(editDetails?.accountName || '')
+            setBalance(editDetails?.balance || '')
+            setSelectedCurrency(editDetails?.currency || '')
+            setSelectedIcon(editDetails?.icon || '')
+        }
+    }, [editDetails])
     return (
         <Dialog open={isOpen} onOpenChange={handleOpenChange}>
             <DialogContent className="sm:max-w-lg">
@@ -61,6 +70,7 @@ export default function AddModal({ isOpen, onClose, onSave, currencyList, profil
                             onChange={(e) => setName(e.target.value)}
                             required
                             style={{ background: palettes.dark[800], color: palettes.light[50] }}
+                            disabled={editDetails?._id}
                         />
                     </label>
 
