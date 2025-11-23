@@ -30,19 +30,10 @@ const balanceData = [
     { name: 'Jul', balance: 14300 },
 ];
 
-const initialAccounts = [
-    { id: 1, name: 'Checking (Primary)', balance: 1450.78, icon: 'banknote' },
-    { id: 2, name: 'Savings (Goal)', balance: 18450.00, icon: 'piggy-bank' },
-    { id: 3, name: 'Credit Card (Visa)', balance: -350.55, icon: 'credit-card' },
-    { id: 4, name: 'Investment Brokerage', balance: 52104.99, icon: 'trending-up' },
-    { id: 5, name: 'Emergency Fund', balance: 7500.00, icon: 'shield-check' },
-    { id: 6, name: 'Travel Wallet', balance: 250.00, icon: 'plane' },
-];
-
 
 
 function ChartAndSubs({ currencyList, profile }) {
-    const [accounts, setAccounts] = React.useState(initialAccounts);
+    const [accounts, setAccounts] = React.useState([]);
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
     const getList = async () => {
@@ -62,10 +53,11 @@ function ChartAndSubs({ currencyList, profile }) {
         AddAccount(payload)
             .then(res => {
                 toast.success('added successfully')
+                getList();
             }).catch(err => {
                 toast.error(err?.message || 'failed to add')
             })
-    };  
+    };
     React.useEffect(() => {
         getList();
     }, [])
@@ -125,7 +117,7 @@ function ChartAndSubs({ currencyList, profile }) {
                     style={{ maxHeight: '300px', overflowY: 'auto' }}
                 >
                     {accounts.map((account) => (
-                        <AccountItem key={account.id} account={account} />
+                        <AccountItem key={account._id} account={account} onClick={handleOpenModal} />
                     ))}
                 </div>
 
