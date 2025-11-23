@@ -2,7 +2,7 @@ import {
     Body,
     Controller,
     Get,
-    Param,
+    Res,
     Post,
     NotFoundException,
     HttpCode,
@@ -92,7 +92,8 @@ export class AuthController {
 
     @Post('/login')
     @HttpCode(HttpStatus.OK)
-    async login(@Body() body: { name: string; password: string },) {
+    async login(@Body() body: { name: string; password: string },
+        @Res({ passthrough: true }) reply: any) {
         const { name, password } = body;
         const user = await this.AuthService.loginUser(name, password);
         if (!user) {
@@ -113,6 +114,7 @@ export class AuthController {
         const token = this.jwtService.sign(payload);
 
 
+        reply.header('set-cookies', token);
         return {
             user: safe,
             token,
