@@ -10,10 +10,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { Button } from '@/components/ui/button';
-import { Label } from 'recharts';
-import { Input } from '@/components/ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { getCategoryList } from '@/services/Category.services';
+import { toast } from 'sonner';
+
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import Icon, { simpleIconCdn } from '@/lib/utils';
+import Image from 'next/image';
 
 const Balance = ({ balance = 1243.72,
   income = 4200.5,
@@ -21,8 +26,31 @@ const Balance = ({ balance = 1243.72,
   const format = (v) => v.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
 
   const [selectedOptions, setSelectedOptions] = React.useState('')
+  const [category, setCategory] = React.useState([])
+  const [selectedcategory, setSelectedCategory] = React.useState({})
 
   const isMobile = useIsMobile();
+
+  const getCatList = async () => {
+    await getCategoryList()
+      .then(res => {
+        setCategory(res || [])
+        setSelectedCategory(res?.[0] || {})
+      })
+      .catch(err => {
+        toast.error(err?.message || 'something went wrong')
+      })
+  }
+
+  const handleCategoryClick = (item) => {
+    console.log(item, 'item')
+    setSelectedCategory(item || {})
+
+  }
+
+  React.useEffect(() => {
+    getCatList()
+  }, [])
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6" >
@@ -103,12 +131,12 @@ const Balance = ({ balance = 1243.72,
 
         <SheetContent
           side={isMobile ? "bottom" : "right"}
-          className={isMobile ? "rounded-4xl" : "rounded-xl"}
-          style={{ backgroundColor: palettes.dark[800], borderLeftWidth: '0' }}
+          className={isMobile ? "rounded-t-4xl" : "rounded-l-xl"}
+          style={{ backgroundColor: palettes.dark[800], borderWidth: '0',borderRadius : isMobile ? '24px 24px 0px 0px' : '24px 0px 0px 24px' }}
         >
           <SheetHeader>
-            <SheetTitle className='text-2xl' style={{color :palettes.primary[400]}}>Add {selectedOptions}</SheetTitle>
-            <SheetDescription style={{color :palettes.light[100]}}>
+            <SheetTitle className='text-2xl' style={{ color: palettes.primary[400] }}>Add {selectedOptions}</SheetTitle>
+            <SheetDescription style={{ color: palettes.light[100] }}>
               {selectedOptions === "Expense" &&
                 "Add your expense details below and save when you're done."}
 
@@ -116,7 +144,49 @@ const Balance = ({ balance = 1243.72,
                 "Add your income details below and save when you're done."}
             </SheetDescription>
           </SheetHeader>
-          <SheetFooter>
+          <div className="w-full">
+
+            <ScrollArea className="h-[calc(100dvh-24rem)] w-full  p-4">
+              <div className="flex flex-col space-y-2 gap-2">
+
+                {category.map(item => (
+                  <div
+                    key={item._id}
+                    style={{
+                      color: palettes.light[100],
+                      backgroundColor: 'transparent',
+                      padding: '8px'
+                    }} className="font-bold flex gap-6 justify-between"
+                    onClick={() => handleCategoryClick(item)}
+                  >
+                    <div className='flex flex-row font-bold flex gap-3'>
+                      <Image
+                        src={simpleIconCdn(item.icon)}
+                        style={{
+                          filter:
+                            "invert(75%) sepia(24%) saturate(1063%) hue-rotate(210deg) brightness(98%) contrast(92%)",
+                        }}
+                        alt={item.icon}
+                        width={28}
+                        height={28}
+                      />
+                      {item.name}
+                    </div>
+                    <Image
+                      style={{
+                        color: palettes.primary[400],
+                      }}
+                      width={28}
+                      height={28}
+                      src='/arrow.svg'
+                      alt={item.icon}
+                    />
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </div>
+          {/* <SheetFooter>
             <Button style={{
               backgroundColor: palettes.primary[400],
               color: palettes.slate[100],
@@ -127,7 +197,7 @@ const Balance = ({ balance = 1243.72,
                 backgroundColor: palettes.slate[100],
               }} className="font-bold" variant="outline">Close</Button>
             </SheetClose>
-          </SheetFooter>
+          </SheetFooter> */}
         </SheetContent>
       </Sheet>
     </section >
