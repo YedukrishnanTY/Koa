@@ -15,5 +15,8 @@ export class ExpenseService {
         const { userName } = payload;
         return this.expenseDocument.find({ username: userName }).exec();
     }
-    async   
+    async createExpense(payload: Partial<Expense>) {
+        const created = new this.expenseDocument(payload);
+        return created.save();
+    }
 }
