@@ -24,7 +24,7 @@ const Balance = ({ balance = 1243.72,
   const [selectedOptions, setSelectedOptions] = React.useState('')
   const [category, setCategory] = React.useState([])
   const [selectedcategory, setSelectedCategory] = React.useState({})
-  const [isSheetOpen, setIsSheetOpen] = React.useState({})
+  const [isSheetOpen, setIsSheetOpen] = React.useState(false)
 
 
   const isMobile = useIsMobile();
@@ -137,7 +137,7 @@ const Balance = ({ balance = 1243.72,
 
           {/* Add Expense Button (Themed Red for outflow) */}
           <Button
-            onClick={() => setSelectedCategory('Expense')}
+            onClick={() => { setSelectedOptions('Expense'); setIsSheetOpen(true) }}
             className="flex items-center justify-between p-4 shadow-lg hover:shadow-red-500/50 hover:scale-[1.02] transition-all duration-300"
             style={{
               backgroundColor: palettes.dark[800],
@@ -154,7 +154,7 @@ const Balance = ({ balance = 1243.72,
 
           {/* Add Income Button (Themed Green for inflow) */}
           <Button
-            onClick={() => setSelectedCategory('Income')}
+            onClick={() => { setSelectedOptions('Income'); setIsSheetOpen(true) }}
             className="flex items-center justify-between p-4 shadow-lg hover:shadow-green-500/50 hover:scale-[1.02] transition-all duration-300"
             style={{
               backgroundColor: palettes.dark[800],

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Select, SelectContent, SelectGroup, SelectLabel, SelectTrigger, SelectValue, SelectItem } from "@/components/ui/select";
 import { palettes } from "@/common/palettes";
+import { SelectIcon } from "@radix-ui/react-select";
 import { Icon } from "@/lib/utils";
 
 
@@ -51,38 +52,52 @@ export default function AddModal({ isOpen, onClose, onSave, currencyList, profil
             setName(editDetails?.accountName || '')
             setBalance(editDetails?.balance || '')
             setSelectedCurrency(editDetails?.currency || '')
-            setSelectedIcon(editDetails?.icon || '')
+            setSelectedIcon(editDetails?.icon || 'banknote')
         } else {
             setName('')
             setBalance('')
             setSelectedCurrency(profile?.currency || '')
             setSelectedIcon('banknote')
-
         }
-    }, [editDetails])
+    }, [editDetails, profile?.currency])
+
+    const isEditMode = !!editDetails?._id;
+
     return (
         <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-            <DialogContent className="sm:max-w-lg">
+            {/* Darker background and rounded corners for the dialog content */}
+            <DialogContent className="sm:max-w-xl bg-gray-900 text-white border-gray-700 p-6 rounded-xl shadow-2xl">
                 <DialogHeader>
-                    <DialogTitle>Create New Account</DialogTitle>
+                    {/* Dynamic Title based on mode */}
+                    <DialogTitle className="text-2xl font-bold text-primary-400">
+                        {isEditMode ? "Edit Account Details" : "Create New Account"}
+                    </DialogTitle>
                 </DialogHeader>
 
-                <form onSubmit={handleSubmit} className="space-y-4 mt-2">
-                    <label className="block">
-                        <div className="text-sm font-medium mb-1">Account Name</div>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Account Name */}
+                    <div>
+                        <div className="text-sm font-semibold mb-2 text-gray-300">Account Name</div>
                         <Input
                             id="account-name"
                             placeholder="e.g., Travel Fund, Business Checking"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
-                            style={{ background: palettes.dark[800], color: palettes.light[50] }}
-                            disabled={editDetails?._id}
+                            // Sleek dark input style
+                            className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 p-3 rounded-lg focus:ring-2 focus:ring-primary-400"
+                            disabled={isEditMode}
                         />
-                    </label>
+                        {isEditMode && (
+                            <p className="text-xs text-red-400 mt-1">
+                                Note: Account name cannot be changed in edit mode.
+                            </p>
+                        )}
+                    </div>
 
-                    <label className="block">
-                        <div className="text-sm font-medium mb-1">Starting Balance</div>
+                    {/* Starting Balance */}
+                    <div>
+                        <div className="text-sm font-semibold mb-2 text-gray-300">Starting Balance</div>
                         <Input
                             id="account-balance"
                             type="text"
@@ -92,72 +107,128 @@ export default function AddModal({ isOpen, onClose, onSave, currencyList, profil
                             value={balance}
                             onChange={(e) => setBalance(e.target.value)}
                             required
-                            style={{ background: palettes.dark[800], color: palettes.light[50] }}
+                            // Sleek dark input style
+                            className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 p-3 rounded-lg focus:ring-2 focus:ring-primary-400"
                         />
-                    </label>
-
-                    <div className='w-full mb-6'>
-                        <div className="text-sm font-medium mb-1">Currency</div>
-                        <Select onValueChange={setSelectedCurrency} value={selectedCurrency} required>
-                            <SelectTrigger
-                                className='w-full p-5 rounded-sm'
-                                style={{ background: palettes.dark[800], color: palettes.light[50] }}>
-                                <SelectValue placeholder="Select Currency" />
-                            </SelectTrigger>
-                            <SelectContent className='w-full'>
-                                <SelectGroup>
-                                    <SelectLabel>Currency</SelectLabel>
-                                    {currencyList.map((currency) => (
-                                        <SelectItem key={currency.code} value={currency.code}>
-                                            {currency.name} ({currency.code})
-                                        </SelectItem>
-                                    ))}
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
                     </div>
 
-                    <div className='w-full mb-6'>
-                        <div className="text-sm font-medium mb-1">Icon</div>
-                        <Select onValueChange={setSelectedIcon} value={selectedIcon}  >
-                            <SelectTrigger className="w-full p-5 rounded-sm" style={{ background: palettes.dark[800], color: palettes.light[50] }}>
-                                <SelectValue placeholder="Select Icon" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectLabel>Icons</SelectLabel>
-                                    {accountIcons.map((item) => (
-                                        <SelectItem key={item.value} value={item.value} >
-                                            <div className="flex items-center gap-2">
-                                                <Icon name={item.icon} className="w-30 h-30" />
-                                                {/* {item.name} */}
-                                            </div>
-                                        </SelectItem>
-                                    ))}
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div className="flex justify-end space-x-3 pt-4">
-                        <Button style={{
-                            color: editDetails?._id ? palettes.slate[100] : palettes.primary[400],
-                            backgroundColor: editDetails?._id ? '#ff1f1f' : palettes.slate[100],
-                        }} type="button" variant="secondary" onClick={
-                            editDetails?._id ? () => {
-                                handleDelete(editDetails); onClose()
-                            } : () => onClose()
+                    {/* Grid for Currency and Icon */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Currency Selector */}
+                        <div>
+                            <div className="text-sm font-semibold mb-2 text-gray-300">Currency</div>
+                            <Select onValueChange={setSelectedCurrency} value={selectedCurrency} required>
+                                <SelectTrigger
+                                    className='w-full bg-gray-800 border-gray-700 text-white p-3 rounded-lg h-auto'
+                                >
+                                    <SelectValue placeholder="Select Currency" />
+                                </SelectTrigger>
+                                <SelectContent className='w-full bg-gray-800 border-gray-700 text-white'>
+                                    <SelectGroup>
+                                        <SelectLabel className="text-primary-400">Available Currencies</SelectLabel>
+                                        {currencyList.map((currency) => (
+                                            <SelectItem key={currency.code} value={currency.code} className="hover:bg-gray-700 cursor-pointer">
+                                                {currency.name} ({currency.code})
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
 
-                        }>
-                            {editDetails?._id ? 'Delete' : 'Cancel'}
-                        </Button>
-                        <Button style={{
-                            backgroundColor: palettes.primary[400],
-                            color: palettes.slate[100],
-                        }} type="submit">Save Account</Button>
+                        {/* Icon Selector */}
+                        <div>
+                            <div className="text-sm font-semibold mb-2 text-gray-300">Account Icon</div>
+                            <Select onValueChange={(value) => setSelectedIcon(value)} value={selectedIcon}>
+                                <SelectTrigger className="w-full bg-gray-800 border-gray-700 text-white p-3 rounded-lg h-auto">
+                                    <div className="flex items-center gap-3">
+                                        {/* Use the PascalCase name for the dynamic Icon component */}
+                                        <Icon name={selectedIcon} className="w-5 h-5 text-primary-400" />
+                                    </div>
+                                </SelectTrigger>
+                                <SelectContent className='w-full bg-gray-800 border-gray-700 text-white'>
+                                    <SelectGroup>
+                                        <SelectLabel className="text-primary-400">Choose Icon</SelectLabel>
+                                        {accountIcons.map((item) => (
+                                            <SelectItem key={item.value} value={item.value} className="hover:bg-gray-700 cursor-pointer">
+                                                <div className="flex items-center gap-3">
+                                                    <Icon name={item.icon} className="w-5 h-5 text-gray-400" />
+                                                    {/* {item.name} */}
+                                                </div>
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </div>
+
+                    {/* Footer Buttons */}
+                    <DialogFooter className="flex flex-col sm:flex-row sm:justify-between pt-6">
+                        {/* Delete Button (Only in Edit Mode) */}
+                        {isEditMode && (
+                            <Button
+                                type="button"
+                                variant="destructive"
+                                onClick={() => {
+                                    handleDelete(editDetails);
+                                    onClose();
+                                }}
+                                className="bg-red-600 hover:bg-red-700 text-white font-semibold w-full sm:w-auto mb-3 sm:mb-0 order-2 sm:order-1 transition-all duration-200"
+                            >
+                                Delete Account
+                            </Button>
+                        )}
+
+                        <div className={`flex space-x-3 ${isEditMode ? 'order-1 sm:order-2 ml-auto' : 'w-full justify-end'}`}>
+                            {/* Cancel Button */}
+                            <Button
+                                type="button"
+                                variant="secondary"
+                                onClick={() => onClose()}
+                                className="bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold transition-all duration-200"
+                            >
+                                Cancel
+                            </Button>
+
+                            {/* Save Button (Primary) */}
+                            <Button
+                                style={{
+                                    backgroundColor: palettes.primary[400],
+                                    color: palettes.slate[100],
+                                }}
+                                type="submit"
+                                className="bg-primary-500 hover:bg-primary-600 text-white font-semibold shadow-lg shadow-primary-500/30 transition-all duration-200"
+                            >
+                                {isEditMode ? "Update Account" : "Save Account"}
+                            </Button>
+                        </div>
+                    </DialogFooter>
+                    <div className="p-4 bg-gray-800 rounded-xl border border-primary-500/50 shadow-inner">
+                        <h3 className="text-lg font-semibold text-gray-300 mb-3 border-b border-gray-700 pb-2">Account Preview</h3>
+                        <div className="flex items-center justify-between space-x-4">
+                            {/* Icon and Name */}
+                            <div className="flex items-center space-x-3 truncate">
+                                <div className="p-3 rounded-full bg-primary-500/20 text-primary-400 flex-shrink-0">
+                                    <Icon name={selectedIcon} className="w-6 h-6" />
+                                </div>
+                                <div className="flex-grow min-w-0">
+                                    <p className="text-xl font-bold text-white truncate">
+                                        {name || 'Account Name'}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Balance and Currency */}
+                            <div className="text-right flex-shrink-0">
+                                <p className="text-xl font-extrabold text-green-400 md:text-2xl">
+                                    {balance}
+                                </p>
+                                <p className="text-xs text-gray-500">{selectedCurrency || 'USD'}</p>
+                            </div>
+                        </div>
                     </div>
                 </form>
-
-                <DialogFooter />
             </DialogContent>
         </Dialog >
     );
