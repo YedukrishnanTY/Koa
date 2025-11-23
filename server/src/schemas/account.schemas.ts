@@ -6,9 +6,6 @@ export type AccountDocument = HydratedDocument<Account>;
 @Schema({ timestamps: true })
 export class Account {
     @Prop({ required: true })
-    accountId: string;
-
-    @Prop({ required: true })
     accountName: string;
 
     @Prop({ required: true, default: 0 })
@@ -19,6 +16,9 @@ export class Account {
 
     @Prop({ required: true })
     username: string;
+
+    @Prop({ required: true })
+    icon: string;
 }
 
-export const AccountSchema = SchemaFactory.createForClass(Account);
+export const AccountSchema = SchemaFactory.createForClass(Account); 

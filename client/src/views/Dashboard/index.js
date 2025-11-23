@@ -18,7 +18,7 @@ export default function HomePage({
         { id: 1, title: 'Grocery', amount: -45.2, category: 'Food', date: 'Nov 20' },
         { id: 2, title: 'Salary', amount: 2000, category: 'Income', date: 'Nov 18' },
         { id: 3, title: 'Spotify', amount: -9.99, category: 'Subscription', date: 'Nov 15' },
-    ],
+    ], currencyList
 }) {
     const router = useRouter();
     const [loading, setLoading] = React.useState(true);
@@ -67,23 +67,14 @@ export default function HomePage({
                     <h2 className="text-lg md:text-xl font-semibold">Welcome back, {profile?.name}</h2>
                     <p className="text-sm text-gray-500">Overview of your money at a glance</p>
                 </div>
-                {/* <div className="flex items-center gap-3">
-                    <Button style={{
-                        backgroundColor: palettes.primary[400],
-                        color: palettes.dark[800],
-                    }} className="font-bold">Accounts</Button>
-                    <Button style={{
-                        backgroundColor: palettes.primary[400],
-                        color: palettes.dark[800],
-                    }} className="font-bold">Sync</Button>
-                </div> */}
+
             </header>
 
             {/* Top row: Balance + Quick actions */}
             <Balance />
 
             {/* Middle row: Charts + Subscriptions/Budgets */}
-            <ChartAndSubs />
+            <ChartAndSubs currencyList={currencyList} profile={profile} />
 
             {/* Recent transactions */}
             <RecentTransaction recent={recent} />

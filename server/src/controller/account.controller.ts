@@ -52,7 +52,7 @@ export class AccountController {
 
     //  get accounts by username 
     @UseGuards(AuthGuard('jwt'))
-    @Get('/user/:username')
+    @Get('/user')
     @HttpCode(HttpStatus.OK)
     async getByUsername(@Headers() headers: Record<string, any>) {
         const token = headers?.['authorization']?.split(' ')?.[1];

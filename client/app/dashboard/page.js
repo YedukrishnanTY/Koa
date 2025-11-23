@@ -1,9 +1,15 @@
 
-import { getProfileDetails } from '@/services/Auth.services';
+import { getCurrencyList } from '@/services/Currency.services';
 import Dashboard from '@/src/views/Dashboard'
 import React from 'react'
 
 export default async function Page() {
+    let currencyList = [];
 
-    return <Dashboard />;
+    try {
+        currencyList = await getCurrencyList();
+    } catch (error) {
+        console.error('Error fetching currency list:', error);
+    }
+    return <Dashboard currencyList={currencyList} />;
 }

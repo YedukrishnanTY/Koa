@@ -1,4 +1,6 @@
 import { palettes } from '@/common/palettes';
+import { Icon } from '@/lib/utils';
+import { AddAccount, getAccountslist } from '@/services/Accounts.services';
 import React from 'react'
 
 import {
@@ -12,6 +14,11 @@ import {
     BarChart,
     Bar,
 } from 'recharts';
+import { toast } from 'sonner';
+import Addmodal from './Addmodal';
+import { Button } from '@/components/ui/button';
+import AddAccountItem from './AddAccountItem';
+import AccountItem from './AccountItem';
 
 const balanceData = [
     { name: 'Jan', balance: 8000 },
@@ -23,15 +30,50 @@ const balanceData = [
     { name: 'Jul', balance: 14300 },
 ];
 
+const initialAccounts = [
+    { id: 1, name: 'Checking (Primary)', balance: 1450.78, icon: 'banknote' },
+    { id: 2, name: 'Savings (Goal)', balance: 18450.00, icon: 'piggy-bank' },
+    { id: 3, name: 'Credit Card (Visa)', balance: -350.55, icon: 'credit-card' },
+    { id: 4, name: 'Investment Brokerage', balance: 52104.99, icon: 'trending-up' },
+    { id: 5, name: 'Emergency Fund', balance: 7500.00, icon: 'shield-check' },
+    { id: 6, name: 'Travel Wallet', balance: 250.00, icon: 'plane' },
+];
 
 
 
-function ChartAndSubs({ }) {
+function ChartAndSubs({ currencyList, profile }) {
+    const [accounts, setAccounts] = React.useState(initialAccounts);
+    const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+    const getList = async () => {
+        await getAccountslist()
+            .then(res => {
+                setAccounts(res || [])
+            })
+            .catch(err => {
+                toast.error(err?.message || 'failed to fetch')
+            })
+    }
+    const handleOpenModal = () => {
+        setIsDialogOpen(true)
+    };
+
+    const handleAddAccount = async (payload) => {
+        AddAccount(payload)
+            .then(res => {
+                toast.success('added successfully')
+            }).catch(err => {
+                toast.error(err?.message || 'failed to add')
+            })
+    };  
+    React.useEffect(() => {
+        getList();
+    }, [])
 
     const format = (v) => v.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
     return (
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6" >
-            <div className="lg:col-span-2 bg-white rounded-2xl p-4 shadow-md" style={{backgroundColor : palettes.dark[800]}}>
+            <div className="lg:col-span-2 bg-white rounded-2xl p-4 shadow-md" style={{ backgroundColor: palettes.dark[800] }}>
                 <div className="flex items-center justify-between mb-3">
                     <h3 className="font-semibold">Spending this month</h3>
                     <div className="text-sm text-gray-500">Sep — Nov</div>
@@ -72,26 +114,28 @@ function ChartAndSubs({ }) {
             </div>
 
             <div className="bg-white rounded-2xl p-4 shadow-md" style={{
-                                    color: palettes.light[400],
-                                    backgroundColor: palettes.dark[800],
-                                }}>
-                <h4 className="font-semibold mb-3">Subscriptions</h4>
-                <ul className="space-y-3 text-sm ">
-                    <li className="flex items-center justify-between">
-                        <div>
-                            <div className="font-medium">Spotify</div>
-                            <div className="text-xs ">Monthly • Next: Dec 2</div>
-                        </div>
-                        <div className="font-medium">-9.99</div>
-                    </li>
-                    <li className="flex items-center justify-between">
-                        <div>
-                            <div className="font-medium">Netlify</div>
-                            <div className="text-xs ">Annual • Next: Jan 10</div>
-                        </div>
-                        <div className="font-medium">-99</div>
-                    </li>
-                </ul>
+                color: palettes.light[400],
+                backgroundColor: palettes.dark[800],
+            }}>
+                <h4 className="font-semibold mb-3">Accounts</h4>
+
+                {/* Account List Area - Simulated ScrollArea */}
+                <div
+                    className="space-y-1 pr-1 pb-2" // Added some padding bottom
+                    style={{ maxHeight: '300px', overflowY: 'auto' }}
+                >
+                    {accounts.map((account) => (
+                        <AccountItem key={account.id} account={account} />
+                    ))}
+                </div>
+
+                <AddAccountItem onClick={handleOpenModal} currencyList={currencyList} profile={profile} />
+
+                <Addmodal
+                    isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)}
+                    currencyList={currencyList} profile={profile}
+                    onSave={handleAddAccount}
+                />
             </div>
         </section>
     )

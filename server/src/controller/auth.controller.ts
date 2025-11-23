@@ -114,7 +114,7 @@ export class AuthController {
         const token = this.jwtService.sign(payload);
 
 
-        reply.header('set-cookies', token);
+        reply.header('set-cookie', token);
         return {
             user: safe,
             token,
