@@ -1,11 +1,28 @@
 import { palettes } from '@/common/palettes';
-import React, { useState } from 'react';
+import React from 'react';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { Button } from '@/components/ui/button';
+import { Label } from 'recharts';
+import { Input } from '@/components/ui/input';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Balance = ({ balance = 1243.72,
   income = 4200.5,
   expenses = 2956.78, }) => {
-  const [open, setOpen] = useState(false);
   const format = (v) => v.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
+
+  const [selectedOptions, setSelectedOptions] = React.useState('')
+
+  const isMobile = useIsMobile();
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6" >
@@ -62,12 +79,58 @@ const Balance = ({ balance = 1243.72,
 
 
       {/* Quick actions column */}
-      <aside className="bg-white rounded-2xl p-4 shadow-md flex flex-col gap-3"  style={{ backgroundColor: palettes.dark[800] }}>
-        <div className="text-sm font-medium">Quick actions</div>
-        <button className="w-full py-2 rounded-lg border text-sm">+ Add expense</button>
-        <button className="w-full py-2 rounded-lg border text-sm">+ Add income</button>
-      </aside>
-    </section>
+
+      <Sheet style={{}}>
+        <aside className="bg-white rounded-2xl p-4 shadow-md flex flex-col gap-3" style={{ backgroundColor: palettes.dark[800] }}>
+          <div className="text-sm font-medium">Quick actions</div>
+          <SheetTrigger asChild>
+            <Button
+              onClick={() => setSelectedOptions('Expense')}
+              style={{
+                color: palettes.primary[400],
+                backgroundColor: palettes.slate[100],
+              }} className="font-bold">+ Add expense</Button>
+          </SheetTrigger>
+          <SheetTrigger asChild>
+            <Button
+              onClick={() => setSelectedOptions('Income')}
+              style={{
+                color: palettes.primary[400],
+                backgroundColor: palettes.slate[100],
+              }} className="font-bold ">+ Add income</Button>
+          </SheetTrigger>
+        </aside>
+
+        <SheetContent
+          side={isMobile ? "bottom" : "right"}
+          className={isMobile ? "rounded-4xl" : "rounded-xl"}
+          style={{ backgroundColor: palettes.dark[800], borderLeftWidth: '0' }}
+        >
+          <SheetHeader>
+            <SheetTitle className='text-2xl' style={{color :palettes.primary[400]}}>Add {selectedOptions}</SheetTitle>
+            <SheetDescription style={{color :palettes.light[100]}}>
+              {selectedOptions === "Expense" &&
+                "Add your expense details below and save when you're done."}
+
+              {selectedOptions === "Income" &&
+                "Add your income details below and save when you're done."}
+            </SheetDescription>
+          </SheetHeader>
+          <SheetFooter>
+            <Button style={{
+              backgroundColor: palettes.primary[400],
+              color: palettes.slate[100],
+            }} className="font-bold" type="submit">Add {selectedOptions}</Button>
+            <SheetClose asChild>
+              <Button style={{
+                color: palettes.primary[400],
+                backgroundColor: palettes.slate[100],
+              }} className="font-bold" variant="outline">Close</Button>
+            </SheetClose>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
+    </section >
   );
 };
 
