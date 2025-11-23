@@ -8,11 +8,15 @@ import {
     HttpCode,
     HttpStatus,
     HttpException,
-    Headers
+    Headers,
+    UseGuards
 } from '@nestjs/common';
 import { AuthService } from 'src/service/auth.service';
 import { Auth } from "src/schemas/auth.schemas";
 import { JwtService } from '@nestjs/jwt';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/roles/roles.guard';
+import { Roles } from 'src/roles/roles.decorator';
 
 @Controller('users')
 export class AuthController {
@@ -48,6 +52,8 @@ export class AuthController {
     }
 
     // GET /users/get-profile-details
+
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Get('/get-profile-details')
     @HttpCode(HttpStatus.OK)
     async findByEmail(@Headers() headers: Record<string, any>,) {
@@ -76,7 +82,7 @@ export class AuthController {
         const user = await this.AuthService.findUserByUserName(decoded.name);
         if (!user) throw new HttpException({
             statusCode: HttpStatus.BAD_REQUEST,
-            message: 'Email already in use',
+            message: 'username already exists',
         }, HttpStatus.BAD_REQUEST
         );
 
@@ -99,7 +105,11 @@ export class AuthController {
             );
         }
         const { password: pwd, ...safe } = user.toObject ? user.toObject() : user;
-        const payload = { sub: user._id, name: user.name };
+        const payload = {
+            sub: user._id,
+            name: user.name,
+            role: Array.isArray(user.role) ? user.role.map(r => String(r).toUpperCase()) : [],
+        };
         const token = this.jwtService.sign(payload);
 
 

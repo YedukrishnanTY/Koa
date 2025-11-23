@@ -45,7 +45,6 @@ const recentTransactions = [
 ];
 
 export default function HomePage({
-    user = { name: 'You' },
     balance = 1243.72,
     income = 4200.5,
     expenses = 2956.78,
@@ -58,12 +57,13 @@ export default function HomePage({
     const router = useRouter();
     const format = (v) => v.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
     const [loading, setLoading] = React.useState(true);
+    const [profile, setProfile] = React.useState(null);
 
     const getDetails = async () => {
         setLoading(true);
         await getProfileDetails()
             .then((res) => {
-                console.log('Profile details:', res);
+                setProfile(res);
             })
             .catch((err) => {
                 toast.error('Failed to fetch profile details. Please login again.');
@@ -90,7 +90,7 @@ export default function HomePage({
             {/* Header */}
             <header className="flex items-center justify-between mb-6">
                 <div>
-                    <h2 className="text-lg md:text-xl font-semibold">Welcome back, {user.name}</h2>
+                    <h2 className="text-lg md:text-xl font-semibold">Welcome back, {profile?.name}</h2>
                     <p className="text-sm text-gray-500">Overview of your money at a glance</p>
                 </div>
                 <div className="flex items-center gap-3">

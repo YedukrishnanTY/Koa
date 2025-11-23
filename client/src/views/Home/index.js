@@ -1,12 +1,39 @@
 'use client';
 import { palettes } from '@/common/palettes'
 import { Button } from '@/components/ui/button'
+import { getProfileDetails } from '@/services/Auth.services';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 
 
 export default function LandingPage({ }) {
+
   const router = useRouter();
+  const [loading, setLoading] = React.useState(true);
+  const getDetails = async () => {
+    setLoading(true);
+    await getProfileDetails()
+      .then((res) => {
+        router.push('/dashboard');
+      })
+      .catch((err) => {
+        localStorage.removeItem('a');
+      }).finally(() => {
+        setLoading(false);
+      });
+  };
+  React.useEffect(() => {
+    getDetails();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white-900"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b">
 

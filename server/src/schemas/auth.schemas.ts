@@ -12,8 +12,8 @@ export class Auth {
     password: string;
 
 
-    @Prop({ required: false })
-    role: Array<string>;
+    @Prop({ type: [String], default: [] })
+    role: string[];
 
     @Prop({ required: true })
     currency: string;

@@ -9,6 +9,11 @@ import { CurrenciesService } from './service/currencies.service';
 import { Currencies, CurrenciesSchema } from './schemas/currencies.schemas';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { CategoryController } from './controller/category,controller';
+import { CategoryService } from './service/category.service';
+import { Category, CategorySchema } from './schemas/category.schemas';
+import { RolesGuard } from './roles/roles.guard';
+import { Reflector } from '@nestjs/core';
 
 require('dotenv').config();
 
@@ -19,6 +24,7 @@ const uri = process.env.DATABASE_URL || '';
     MongooseModule.forRoot(uri),
     MongooseModule.forFeature([{ name: Auth.name, schema: AuthSchema }]),
     MongooseModule.forFeature([{ name: Currencies.name, schema: CurrenciesSchema }]),
+    MongooseModule.forFeature([{ name: Category.name, schema: CategorySchema }]),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -27,8 +33,8 @@ const uri = process.env.DATABASE_URL || '';
       signOptions: { expiresIn: '365d' }, // token expiry
     }),
   ],
-  controllers: [AuthController, CurrenciesController],
-  providers: [AuthService, CurrenciesService, JwtStrategy],
-  exports: [AuthService],
+  controllers: [AuthController, CurrenciesController, CategoryController],
+  providers: [AuthService, CurrenciesService, JwtStrategy, CategoryService, RolesGuard, Reflector],
+  exports: [AuthService, JwtStrategy],
 })
 export class AppModule { }
