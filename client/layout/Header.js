@@ -18,7 +18,6 @@ function Header() {
         setLoading(true)
         getProfileDetails()
             .then((res) => {
-                console.log(res, 'res')
                 setProfile(res);
                 router.push('/dashboard');
             })
@@ -33,7 +32,6 @@ function Header() {
     // Handler for currency change (Mock)
     const handleCurrencyChange = (newCurrency) => {
         setProfile(prev => ({ ...prev, currency: newCurrency }));
-        console.log(`Currency updated to: ${newCurrency}`);
     };
 
     // Handler for logout (Mock)
@@ -110,7 +108,6 @@ const ProfileDropdown = ({ profile, onLogout, onCurrencyChange }) => {
         </svg>
     );
 
-    console.log(profile, 'profile')
 
     return (
         <div className="relative" ref={dropdownRef}>
