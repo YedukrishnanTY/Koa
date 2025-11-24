@@ -20,7 +20,7 @@ import { AccountService } from '../service/account.service';
 import { TokenService } from '../service/token.services';
 import { JwtAuthGuard } from '../user/jwt.guard';
 import { User } from '../user/user.decorator';
-import { ExpenseService } from 'src/service/expense.service';
+import { ExpenseService } from '../service/expense.service';
 
 @Controller('account')
 export class AccountController {
