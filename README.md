@@ -1,6 +1,6 @@
-# **Koa – Personal Expense & Subscription Tracker**
+# **Ten – Personal Expense & Subscription Tracker**
 
-**Koa** is a reliable and intuitive application designed to help you clearly log, categorize, and understand your personal spending.
+**Ten** is a reliable and intuitive application designed to help you clearly log, categorize, and understand your personal spending.
 
 
 ## **✨ Features**
@@ -53,8 +53,8 @@
 ## **📦 Installation**
 
 ```bash
-git clone https://github.com/YedukrishnanTY/Koa
-cd koa
+git clone https://github.com/YedukrishnanTY/Ten
+cd Ten
 npm install
 npm run dev
 ```
