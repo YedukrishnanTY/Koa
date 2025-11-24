@@ -37,10 +37,7 @@ export class ExpenseController {
     @HttpCode(HttpStatus.OK)
     async getExpensePerUser(@Headers() headers: Record<string, any>) {
         const username = this.tokenService.getUsernameFromHeaders(headers);
-        const payload = {
-            userName: username
-        }
-        const Expenses = await this.ExpenseService.getExpenseByUserName(payload);
+        const Expenses = await this.ExpenseService.getExpenseByUserName(username);
         return Expenses || [];
     }
 

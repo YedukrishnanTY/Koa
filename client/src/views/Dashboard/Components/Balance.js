@@ -17,10 +17,9 @@ import { Plus, Minus, ChevronRight, ArrowUp, ArrowDown } from 'lucide-react';
 import { ExpenseDetailsForm } from './ExpenseDetailsForm';
 
 
-const Balance = ({ balance = 1243.72,
-  income = 4200.5,
-  expenses = 2956.78,
+const Balance = ({
   accounts, category,
+  accountDetails,
   selectedcategory, setSelectedCategory, handleExpense, selectedOptions, setSelectedOptions
 }) => {
   const format = (v) => v.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
@@ -37,6 +36,11 @@ const Balance = ({ balance = 1243.72,
     setPage(2)
   }
 
+  console.log(accountDetails, 'accountDetails')
+  const formattedBalance = (balance, currency) => new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency || 'INR',
+  }).format(balance);
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6" >
 
@@ -47,9 +51,13 @@ const Balance = ({ balance = 1243.72,
         <div className="flex items-start justify-between">
           <div>
             <p className="text-sm font-medium text-gray-400 tracking-wide uppercase">Net Balance</p>
-            <h1 className="text-4xl md:text-5xl font-extrabold mt-1" style={{ color: palettes.primary[400] }}>
-              {format(balance)}
-            </h1>
+            {Object.entries(accountDetails?.balanceByCurrency || {})?.length > 0 ?
+              Object.entries(accountDetails?.balanceByCurrency || {}).map?.((value, item) => (
+                <h1 key={item} className="text-4xl md:text-5xl font-extrabold mt-1" style={{ color: palettes.primary[400] }}>
+                  {formattedBalance(value?.[1], value?.[0])}
+                </h1>
+              ))
+              : '-'}
             <div className="mt-5 flex flex-col md:flex-row gap-4 md:gap-8 text-white">
 
               {/* Income */}
@@ -57,7 +65,13 @@ const Balance = ({ balance = 1243.72,
                 <ArrowUp className="w-5 h-5" style={{ color: palettes.green[500] }} />
                 <div>
                   <div className="text-xs text-gray-400 uppercase tracking-wider">Income</div>
-                  <div className="font-semibold text-lg" style={{ color: palettes.green[500] }}>{format(income)}</div>
+                  {Object.entries(accountDetails?.totalIncomeByCurrencyFromAccounts || {})?.length > 0 ?
+                    Object.entries(accountDetails?.totalIncomeByCurrencyFromAccounts || {}).map?.((value, item) => (
+                      <h1 key={item} className="font-semibold text-lg" style={{ color: palettes.green[500] }}>
+                        {formattedBalance(value?.[1], value?.[0])}
+                      </h1>
+                    ))
+                    : '-'}
                 </div>
               </div>
 
@@ -66,14 +80,20 @@ const Balance = ({ balance = 1243.72,
                 <ArrowDown className="w-5 h-5" style={{ color: palettes.red[500] }} />
                 <div>
                   <div className="text-xs text-gray-400 uppercase tracking-wider">Expenses</div>
-                  <div className="font-semibold text-lg" style={{ color: palettes.red[500] }}>{format(expenses)}</div>
+                  {Object.entries(accountDetails?.totalExpenseByCurrencyTransactions || {})?.length > 0 ?
+                    Object.entries(accountDetails?.totalExpenseByCurrencyTransactions || {}).map?.((value, item) => (
+                      <h1 key={item} className="font-semibold text-lg" style={{ color: palettes.red[500] }}>
+                        {formattedBalance(value?.[1], value?.[0])}
+                      </h1>
+                    ))
+                    : '-'}
                 </div>
               </div>
             </div>
           </div>
 
           {/* Placeholder for Donut Chart/Visualization */}
-          <div className="hidden md:flex items-center justify-center relative w-36 h-36">
+          {/* <div className="hidden md:flex items-center justify-center relative w-36 h-36">
             <div
               className="w-full h-full rounded-full border-[8px]"
               style={{
@@ -89,7 +109,7 @@ const Balance = ({ balance = 1243.72,
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Insights row (Revamped small cards) */}
@@ -97,17 +117,30 @@ const Balance = ({ balance = 1243.72,
           {/* Child 1: Full width on mobile, roughly 1/3 on medium screens and up */}
           <div className="w-full md:w-[calc(33.33%-0.5rem)] p-3 rounded-xl text-sm shadow-inner" style={{ backgroundColor: palettes.dark[900], border: '1px solid #334155' }}>
             <div className="text-gray-400 text-xs uppercase tracking-wider">This Month</div>
-            <div className="font-medium text-white mt-1">{format(100)} spent</div>
+            {Object.entries(accountDetails?.monthlyExpenseByCurrency || {})?.length > 0 ?
+              Object.entries(accountDetails?.monthlyExpenseByCurrency || {}).map?.((value, item) => (
+                <h1 key={item} className="font-medium text-white mt-1">
+                  {formattedBalance(value?.[1], value?.[0])}
+                </h1>
+              ))
+              : '-'}
+          </div>
+
+          {/* Child 3: Full width on mobile, roughly 1/3 on medium screens and up */}
+          <div className="w-full md:w-[calc(33.33%-0.5rem)] p-3 rounded-xl text-sm shadow-inner" style={{ backgroundColor: palettes.dark[900], border: '1px solid #334155' }}>
+            <div className="text-gray-400 text-xs uppercase tracking-wider">Budget Left</div>
+            {Object.entries(accountDetails?.balanceByCurrency || {})?.length > 0 ?
+              Object.entries(accountDetails?.balanceByCurrency || {}).map?.((value, item) => (
+                <h1 key={item} className="font-medium text-white mt-1">
+                  {formattedBalance(value?.[1], value?.[0])}
+                </h1>
+              ))
+              : '-'}
           </div>
           {/* Child 2: Full width on mobile, roughly 1/3 on medium screens and up */}
           <div className="w-full md:w-[calc(33.33%-0.5rem)] p-3 rounded-xl text-sm shadow-inner" style={{ backgroundColor: palettes.dark[900], border: '1px solid #334155' }}>
             <div className="text-gray-400 text-xs uppercase tracking-wider">Subscriptions</div>
-            <div className="font-medium text-white mt-1">{100} active</div>
-          </div>
-          {/* Child 3: Full width on mobile, roughly 1/3 on medium screens and up */}
-          <div className="w-full md:w-[calc(33.33%-0.5rem)] p-3 rounded-xl text-sm shadow-inner" style={{ backgroundColor: palettes.dark[900], border: '1px solid #334155' }}>
-            <div className="text-gray-400 text-xs uppercase tracking-wider">Budget Left</div>
-            <div className="font-medium mt-1" style={{ color: palettes.green[500] }}>{format(100)}</div>
+            <div className="font-medium text-white mt-1">This Feature will be Available soon </div>
           </div>
         </div>
       </div>

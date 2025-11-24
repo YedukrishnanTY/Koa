@@ -14,8 +14,7 @@ export class ExpenseService {
     async getAllExpense() {
         return this.expenseDocument.find({}).sort({ createdAt: -1 }).exec();
     }
-    async getExpenseByUserName(payload: { userName: string }) {
-        const { userName } = payload;
+    async getExpenseByUserName(userName: string) {
         return this.expenseDocument.find({ username: userName }).sort({ createdAt: -1 }).exec();
     }
     async createExpense(payload: { accountId: string, price: number, isIncome: boolean } & Partial<Expense>) {

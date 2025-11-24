@@ -9,7 +9,7 @@ export const getCategoryList = async () => {
             headers: getHeaders(),
             credentials: 'include',
         });
-        const result = handleResponse(response);
+        const result = await handleResponse(response);
         return result;
     } catch (error) {
         console.error('Failed to fetch currency list:', error);

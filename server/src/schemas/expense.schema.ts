@@ -31,8 +31,21 @@ export class Expense {
 
     @Prop({ required: false })
     notes: string;
+
+    @Prop()
+    createdAt?: Date;
+
+    @Prop()
+    updatedAt?: Date;
 }
 
+class CategoryDetails {
+    @Prop({ required: true })
+    id: string;
+
+    @Prop({ required: true })
+    name: string;
+}
 
 export const ExpenseSchema = SchemaFactory.createForClass(Expense);
 

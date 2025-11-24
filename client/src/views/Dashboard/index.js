@@ -21,7 +21,7 @@ export default function HomePage({
     const router = useRouter();
     const [loading, setLoading] = React.useState(true);
     const [profile, setProfile] = React.useState(null);
-    const [recent, setRecent] = React.useState(null);
+    const [expenseDetails, setExpenseDetails] = React.useState({});
     const [accounts, setAccounts] = React.useState([]);
     const [category, setCategory] = React.useState([])
     const [selectedcategory, setSelectedCategory] = React.useState({})
@@ -39,8 +39,8 @@ export default function HomePage({
             ]);
 
             setProfile(profile);
-            setRecent(expenses || []);
-            setAccounts(accounts || []);
+            setExpenseDetails(expenses || []);
+            setAccounts(accounts || {});
             setCategory(categories || [])
             setSelectedCategory(categories?.[0] || {})
 
@@ -98,7 +98,8 @@ export default function HomePage({
 
             {/* Top row: Balance + Quick actions */}
             <Balance
-                accounts={accounts || []} category={category}
+                accountDetails={accounts}
+                accounts={accounts?.accounts || []} category={category}
                 setSelectedCategory={setSelectedCategory} selectedcategory={selectedcategory}
                 handleExpense={handleExpense}
                 selectedOptions={selectedOptions}
@@ -106,10 +107,14 @@ export default function HomePage({
             />
 
             {/* Middle row: Charts + Subscriptions/Budgets */}
-            <ChartAndSubs currencyList={currencyList} profile={profile} accounts={accounts || []} getList={loadData} />
+            <ChartAndSubs
+                accountDetails={accounts || {}}
+                currencyList={currencyList} profile={profile} accounts={accounts?.accounts || []}
+                getList={loadData}
+            />
 
             {/* Recent transactions */}
-            <RecentTransaction recent={recent} accounts={accounts || []} category={category} />
+            <RecentTransaction recent={expenseDetails || []} accounts={accounts?.accounts || []} category={category} />
 
         </div>
     )

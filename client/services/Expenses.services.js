@@ -9,7 +9,7 @@ export const getExpenseAll = async () => {
             headers: getHeaders(),
             credentials: 'include',
         });
-        const result = handleResponse(response);
+        const result = await handleResponse(response);
         return result;
     } catch (error) {
         console.error('Failed to fetch', error);
@@ -25,7 +25,7 @@ export const createExpenseOrIncome = async (payload) => {
             credentials: 'include',
             body: JSON.stringify(payload)
         });
-        const result = handleResponse(response);
+        const result = await handleResponse(response);
         return result;
     } catch (error) {
         console.error('Failed to fetch', error);

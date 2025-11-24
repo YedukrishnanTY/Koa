@@ -4,12 +4,12 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const getAccountslist = async () => {
     try {
-        const response = await fetch(`${API_BASE_URL}/account/user`, {
+        const response = await fetch(`${API_BASE_URL}/account/details`, {
             method: 'GET',
             headers: getHeaders(),
             credentials: 'include',
         });
-        const result = handleResponse(response);
+        const result = await handleResponse(response);
         return result;
     } catch (error) {
         console.error('Failed to fetch  list:', error);
@@ -25,7 +25,7 @@ export const AddAccount = async (payload) => {
             credentials: 'include',
             body: JSON.stringify(payload)
         });
-        const result = handleResponse(response);
+        const result = await handleResponse(response);
         return result;
     } catch (error) {
         console.error('Failed to fetch  list:', error);
@@ -41,7 +41,7 @@ export const EditAccount = async (payload) => {
             credentials: 'include',
             body: JSON.stringify(payload)
         });
-        const result = handleResponse(response);
+        const result = await handleResponse(response);
         return result;
     } catch (error) {
         console.error('Failed to fetch  list:', error);
@@ -57,7 +57,7 @@ export const DeleteAccount = async (payload) => {
             credentials: 'include',
             body: JSON.stringify(payload)
         });
-        const result = handleResponse(response);
+        const result = await handleResponse(response);
         return result;
     } catch (error) {
         console.error('Failed to fetch  list:', error);
