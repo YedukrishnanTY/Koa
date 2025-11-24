@@ -35,94 +35,164 @@ export default function LandingPage({ }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b">
+    <div className="min-h-screen pb-16" style={{
+      // Dark mode gradient background
+      background: `linear-gradient(180deg, ${palettes.slate[900]} 0%, #111827 100%)`,
+      color: palettes.slate[100]
+    }}>
 
-      {/* HERO */}
-      <header className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-8 py-12">
-        <div className="lg:w-1/2">
-          <h1 className="text-3xl md:text-4xl font-extrabold leading-tight">
-            A smarter way to track money —
-            <span style={{ color: palettes.primary[400] }}> for everyone</span>
+      {/* HERO Section */}
+      <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-12 py-20 lg:py-32">
+        <div className="lg:w-7/12 text-center lg:text-left">
+          <h1 className="text-5xl md:text-7xl font-extrabold leading-tight tracking-tighter">
+            Financial clarity,
+            <span className="block mt-2" style={{ color: palettes.primary[400] }}> Effortlessly tracked.</span>
           </h1>
-          <p className="mt-4 text-gray-600 max-w-xl" style={{ color: palettes.slate[100] }}>Cross-platform expense tracking that moves with you. Use it in the browser, on mobile via our app. Simple, private, and focused on what matters .</p>
+          <p className="mt-6 text-lg md:text-xl max-w-2xl mx-auto lg:mx-0 font-light" style={{ color: palettes.slate[100] }}>
+            Cross-platform expense tracking that moves with you. Simple, private, and focused on providing actionable insights into your money.
+          </p>
 
-          <div className="mt-6 flex gap-3">
-            <Button onClick={() => router.push('/register')} className="px-5 py-3 rounded-md font-bold  "
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            {/* Primary Button: Register */}
+            <Button
+              onClick={() => router.push('/register')}
+              className="px-8 py-3 rounded-xl text-lg shadow-lg"
               style={{
                 backgroundColor: palettes.primary[400],
-                color: palettes.slate[100],
-              }}>Register</Button>
-            <Button onClick={() => router.push('/login')} className="px-5 py-3 border rounded-md text-sm font-bold"
+                color: palettes.slate[900], // Darker text on vibrant background
+                // Added focus/hover effects via className mock
+                boxShadow: `0 4px 15px -3px ${palettes.primary[600]}`
+              }}>
+              Start Tracking Now
+            </Button>
+
+            {/* Secondary Button: Login */}
+            <Button
+              onClick={() => router.push('/login')}
+              className="px-8 py-3 rounded-xl text-lg border-2"
               style={{
                 color: palettes.primary[400],
-                backgroundColor: palettes.slate[100],
-              }}>Already a user</Button>
+                borderColor: palettes.primary[400],
+                backgroundColor: 'transparent',
+              }}>
+              Already a user
+            </Button>
           </div>
-
         </div>
-
+        {/* Visual Placeholder (Revamped style) */}
+        <div className="lg:w-5/12 hidden lg:block">
+          <div className="relative p-8 rounded-2xl shadow-2xl backdrop-blur-sm"
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', border: `1px solid ${palettes.primary[400]}40` }}>
+            <div className="h-64 rounded-xl bg-gray-700/50 flex items-center justify-center text-gray-400 font-mono text-sm">
+              Dashboard Preview Mockup
+            </div>
+            <div className="absolute -bottom-4 -left-4 w-12 h-12 rounded-full" style={{ backgroundColor: palettes.primary[400] + '33' }}></div>
+            <div className="absolute -top-4 -right-4 w-6 h-6 rounded-full" style={{ backgroundColor: palettes.primary[400] + '33' }}></div>
+          </div>
+        </div>
 
       </header>
 
-      {/* FEATURES */}
-      <section id="features" className="max-w-6xl mx-auto px-6 py-10">
-        <h2 className="text-xl font-semibold">Built for how you manage money</h2>
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-5 rounded-lg shadow-sm">
-            <h3 className="font-bold" style={{ color: palettes.primary[400], }}>Cross‑platform</h3>
-            <p className="mt-2 text-sm text-gray-600">Use it on the web or app — your data always stays in sync.</p>
+      {/* FEATURES Section */}
+      <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h2 className="text-3xl font-bold text-center mb-12">Built for how you manage money</h2>
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Feature Card 1 */}
+          <div className="p-8 rounded-2xl border transition duration-300 hover:shadow-primary-lg"
+            style={{ backgroundColor: palettes.slate[900], borderColor: palettes.primary[400] + '20' }}>
+            <div className="text-3xl mb-3" style={{ color: palettes.primary[400] }}>
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+            </div>
+            <h3 className="text-xl font-bold mb-2">Cross‑platform</h3>
+            <p className="text-gray-400 text-sm">Use it on the web or app — your data always stays in sync across all your devices with real-time updates.</p>
           </div>
-          <div className="bg-white p-5 rounded-lg shadow-sm">
-            <h3 className="font-bold" style={{ color: palettes.primary[400], }}>Privacy‑first</h3>
-            <p className="mt-2 text-sm text-gray-600">We only store what’s necessary. Local-first options and exportable data.</p>
+          {/* Feature Card 2 */}
+          <div className="p-8 rounded-2xl border transition duration-300 hover:shadow-primary-lg"
+            style={{ backgroundColor: palettes.slate[900], borderColor: palettes.primary[400] + '20' }}>
+            <div className="text-3xl mb-3" style={{ color: palettes.primary[400] }}>
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            </div>
+            <h3 className="text-xl font-bold mb-2">Privacy‑first</h3>
+            <p className="text-gray-400 text-sm">We only store what’s necessary for your experience. Your data is encrypted, and you maintain complete ownership and control.</p>
           </div>
-          <div className="bg-white p-5 rounded-lg shadow-sm">
-            <h3 className="font-bold" style={{ color: palettes.primary[400], }}>Fast actions</h3>
-            <p className="mt-2 text-sm text-gray-600">Quick-add, receipt scan, and smart suggestions make tracking effortless.</p>
+          {/* Feature Card 3 */}
+          <div className="p-8 rounded-2xl border transition duration-300 hover:shadow-primary-lg"
+            style={{ backgroundColor: palettes.slate[900], borderColor: palettes.primary[400] + '20' }}>
+            <div className="text-3xl mb-3" style={{ color: palettes.primary[400] }}>
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
+            <h3 className="text-xl font-bold mb-2">Fast actions</h3>
+            <p className="text-gray-400 text-sm">Quick-add widgets, receipt scan integration, and smart category suggestions make tracking effortless and fast.</p>
           </div>
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section className="max-w-6xl mx-auto px-6 py-8">
-        <h2 className="text-lg font-semibold">How it works</h2>
-        <ol className="mt-4 space-y-4 text-sm text-gray-700 list-decimal list-inside" style={{ color: palettes.slate[100] }}>
-          <li>Create an account.</li>
-          <li>Quick-add expenses or connect a supported bank/account for automatic import.</li>
-          <li>Organize with budgets, tags, and subscriptions — then track insights in your dashboard.</li>
-        </ol>
+      {/* HOW IT WORKS Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h2 className="text-3xl font-bold text-center mb-12">Get Started in 3 Simple Steps</h2>
+        <div className="max-w-2xl mx-auto">
+          <ol className="space-y-6 text-lg text-gray-300">
+            {/* Step 1 */}
+            <li className="flex items-start gap-4 p-4 rounded-lg bg-gray-800/50">
+              <span className="text-2xl font-extrabold flex-shrink-0" style={{ color: palettes.primary[400] }}>01</span>
+              <div>
+                <strong className="font-semibold text-white">Create your secure account.</strong>
+                <p className="text-sm text-gray-400">Takes less than 60 seconds to set up your profile and login credentials.</p>
+              </div>
+            </li>
+            {/* Step 2 */}
+            <li className="flex items-start gap-4 p-4 rounded-lg bg-gray-800/50">
+              <span className="text-2xl font-extrabold flex-shrink-0" style={{ color: palettes.primary[400] }}>02</span>
+              <div>
+                <strong className="font-semibold text-white">Log your first expense.</strong>
+                <p className="text-sm text-gray-400">Quick-add expenses or utilize advanced features like receipt scanning and bank import (if supported).</p>
+              </div>
+            </li>
+            {/* Step 3 */}
+            <li className="flex items-start gap-4 p-4 rounded-lg bg-gray-800/50">
+              <span className="text-2xl font-extrabold flex-shrink-0" style={{ color: palettes.primary[400] }}>03</span>
+              <div>
+                <strong className="font-semibold text-white">Track, organize, and gain insights.</strong>
+                <p className="text-sm text-gray-400">Organize with budgets and tags, then view clear, interactive charts in your personal dashboard.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
       </section>
 
-      {/* TRUST / CTA */}
-      <section className="max-w-6xl mx-auto px-6 py-8">
-        <div className="bg-indigo-600 text-white p-6 rounded-lg flex flex-col md:flex-row items-center justify-between" style={{
+      {/* TRUST / CTA Section (Call to Action) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between shadow-2xl" style={{
           backgroundColor: palettes.primary[400],
-          color: palettes.slate[100],
+          color: palettes.slate[900], // Dark text on light background
         }}>
-          <div>
-            <div className="font-semibold">Ready to take control of your money?</div>
-            <div className="text-sm mt-1">Sign up to create your account and begin your experience with all the features we’ve built for you.</div>
+          <div className="text-center md:text-left">
+            <div className="text-2xl font-extrabold">Ready to take control of your financial life?</div>
+            <div className="text-md mt-2 font-medium">Join thousands of users simplifying their expense tracking today.</div>
           </div>
-          <div className="mt-4 md:mt-0">
+          <div className="mt-6 md:mt-0 flex-shrink-0">
             <Button style={{
               color: palettes.primary[400],
               backgroundColor: palettes.slate[100],
+              boxShadow: `0 4px 15px -3px rgba(0,0,0,0.2)`,
             }} onClick={() => router.push('/register')}
-
-              className="px-4 py-2 bg-white text-indigo-600 rounded-md font-bold">Create account</Button>
+              className="px-6 py-3 rounded-xl font-bold text-lg">
+              Create account
+            </Button>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="max-w-6xl mx-auto px-6 py-6 text-sm text-gray-600">
-        <div className="flex flex-col md:flex-row justify-center items-center gap-4" style={{ color: palettes.slate[100] }}>
-          <div>© {new Date().getFullYear()} ExpenseTracker — Built with care.</div>
-          {/* <div className="flex gap-4">
-            <a href="/privacy">Privacy</a>
-            <a href="/terms">Terms</a>
-            <a href="/contact">Contact</a>
-          </div> */}
+      <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-gray-700/50 text-sm text-gray-400">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4">
+          <div>© {new Date().getFullYear()} ExpenseTracker — Financial Freedom, Simplified.</div>
+          {/* The original placeholder links are commented out:
+                    <div className="flex gap-4">
+                        <a href="/privacy" className="hover:text-white transition duration-200">Privacy</a>
+                        <a href="/terms" className="hover:text-white transition duration-200">Terms</a>
+                        <a href="/contact" className="hover:text-white transition duration-200">Contact</a>
+                    </div> */}
         </div>
       </footer>
     </div>

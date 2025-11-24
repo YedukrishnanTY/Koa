@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "ExpenseTracker",
+  title: "Ten",
   description: "Track and manage your expenses effortlessly.",
 };
 
@@ -23,7 +23,7 @@ export default function RootLayout({ children, ...props }) {
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
-        style={{ background: palettes.dark[900] }}
+        style={{ background: '#0f172a' }}
       >
         <Main children={children} props={props} />
       </body>

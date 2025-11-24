@@ -7,7 +7,7 @@ import Interceptor from '../common/Interceptor'
 function Main({ children }) {
 
     return (
-        <div style={{ display: 'flex', flex: '1 0 0', flexDirection: 'column' }}>
+        <div style={{ display: 'flex', flex: '1 0 0', flexDirection: 'column', background: '#0f172a' }}>
             <Interceptor />   {/* run only on client */}
             <Header />
             <div>{children}</div>

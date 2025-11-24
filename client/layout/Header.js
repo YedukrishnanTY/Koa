@@ -16,7 +16,7 @@ function Header() {
                 router.push('/dashboard');
             })
             .catch((err) => {
-                router.push('/login');
+                router.push('/');
             });
     }
 
