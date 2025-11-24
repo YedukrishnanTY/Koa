@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import bcrypt from "node_modules/bcryptjs";
+import bcrypt from "bcryptjs";
 import { Auth, AuthDocument } from "../schemas/auth.schemas";
 
 @Injectable()
