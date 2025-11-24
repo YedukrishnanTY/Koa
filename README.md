@@ -40,7 +40,6 @@
 
 ## **🚀 Tech Stack**
 
-*(Modify based on your actual setup)*
 
 * **Frontend:** Next.js / React
 * **Backend:** Node.js / NestJS / MongoDB
