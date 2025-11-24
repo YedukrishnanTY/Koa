@@ -14,12 +14,12 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
-import { Roles } from 'src/roles/roles.decorator';
-import { RolesGuard } from 'src/roles/roles.guard';
-import { AccountService } from 'src/service/account.service';
-import { TokenService } from 'src/service/token.services';
-import { JwtAuthGuard } from 'src/user/jwt.guard';
-import { User } from 'src/user/user.decorator';
+import { Roles } from '../roles/roles.decorator';
+import { RolesGuard } from '../roles/roles.guard';
+import { AccountService } from '../service/account.service';
+import { TokenService } from '../service/token.services';
+import { JwtAuthGuard } from '../user/jwt.guard';
+import { User } from '../user/user.decorator';
 
 @Controller('account')
 export class AccountController {
