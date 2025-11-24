@@ -22,7 +22,9 @@ import { TokenService } from 'src/service/token.services';
 @Controller('users')
 export class AuthController {
     constructor(private readonly AuthService: AuthService,
-        private jwtService: JwtService, private tokenService: TokenService) { }
+        private readonly jwtService: JwtService,
+        private readonly tokenService: TokenService
+    ) { }
 
     // POST /users/register
     @Post('/register')

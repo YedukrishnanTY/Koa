@@ -17,7 +17,7 @@ import { TokenService } from 'src/service/token.services';
 @Controller('expense')
 export class ExpenseController {
     constructor(private readonly ExpenseService: ExpenseService,
-        private tokenService: TokenService) { }
+        private readonly tokenService: TokenService) { }
 
     // GET /expense
     @UseGuards(AuthGuard('jwt'), RolesGuard)
