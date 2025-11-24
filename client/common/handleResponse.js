@@ -27,7 +27,7 @@ export async function handleResponse(response,) {
             };
         }
 
-        const error = new Error(errorData.message || "Unknown error");
+        const error = new Error(errorData?.message || "Unknown error");
         error.data = errorData;  // attach full error payload
         error.status = response.status;
         throw error;

@@ -21,7 +21,7 @@ export default function HomePage({
     const router = useRouter();
     const [loading, setLoading] = React.useState(true);
     const [profile, setProfile] = React.useState(null);
-    const [expenseDetails, setExpenseDetails] = React.useState({});
+    const [expenseDetails, setExpenseDetails] = React.useState([]);
     const [accounts, setAccounts] = React.useState([]);
     const [category, setCategory] = React.useState([])
     const [selectedcategory, setSelectedCategory] = React.useState({})
