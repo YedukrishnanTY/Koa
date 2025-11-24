@@ -9,7 +9,7 @@ import { CurrenciesService } from './service/currencies.service';
 import { Currencies, CurrenciesSchema } from './schemas/currencies.schemas';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
-import { CategoryController } from './controller/category,controller';
+import { CategoryController } from './controller/category.controller';
 import { CategoryService } from './service/category.service';
 import { Category, CategorySchema } from './schemas/category.schemas';
 import { RolesGuard } from './roles/roles.guard';
@@ -22,21 +22,18 @@ import { AccountController } from './controller/account.controller';
 import { Account, AccountSchema } from './schemas/account.schemas';
 import { TokenService } from './service/token.services';
 
-require('dotenv').config();
-
-const uri = process.env.DATABASE_URL || '';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(uri),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    MongooseModule.forRoot(process.env.DATABASE_URL || ''),
     MongooseModule.forFeature([{ name: Auth.name, schema: AuthSchema }]),
     MongooseModule.forFeature([{ name: Currencies.name, schema: CurrenciesSchema }]),
     MongooseModule.forFeature([{ name: Category.name, schema: CategorySchema }]),
     MongooseModule.forFeature([{ name: Expense.name, schema: ExpenseSchema }]),
     MongooseModule.forFeature([{ name: Account.name, schema: AccountSchema }]),
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
     JwtModule.register({
       secret: process.env.JWT_SECRET || '',
       signOptions: { expiresIn: '365d' }, // token expiry
