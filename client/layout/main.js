@@ -1,9 +1,8 @@
-'use client'
-import { SidebarProvider } from '@/components/ui/sidebar'
+'use client'    
 import React from 'react'
 import Header from './Header'
 import Toaster from './Toaster'
-import Interceptor from '@/common/interceptor'
+import Interceptor from '../common/interceptor'
 
 Interceptor()
 function Main({ props, children }) {
