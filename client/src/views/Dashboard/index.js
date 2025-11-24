@@ -9,7 +9,9 @@ import RecentTransaction from './Components/RecentTransaction';
 import ChartAndSubs from './Components/ChartAndSubs';
 import Balance from './Components/Balance';
 import { Button } from '@/components/ui/button';
-import { getExpenseAll } from '@/services/Expenses.services';
+import { createExpenseOrIncome, getExpenseAll } from '@/services/Expenses.services';
+import { getAccountslist } from '@/services/Accounts.services';
+import { getCategoryList } from '@/services/Category.services';
 
 
 
@@ -20,32 +22,59 @@ export default function HomePage({
     const [loading, setLoading] = React.useState(true);
     const [profile, setProfile] = React.useState(null);
     const [recent, setRecent] = React.useState(null);
+    const [accounts, setAccounts] = React.useState([]);
+    const [category, setCategory] = React.useState([])
+    const [selectedcategory, setSelectedCategory] = React.useState({})
+    const [selectedOptions, setSelectedOptions] = React.useState('')
 
-    const getDetails = async () => {
-        setLoading(true);
-        await getProfileDetails()
-            .then((res) => {
-                setProfile(res);
-            })
-            .catch((err) => {
+    const loadData = async () => {
+        try {
+            setLoading(true);
+
+            const [profile, expenses, accounts, categories] = await Promise.all([
+                getProfileDetails(),
+                getExpenseAll(),
+                getAccountslist(),
+                getCategoryList()
+            ]);
+
+            setProfile(profile);
+            setRecent(expenses || []);
+            setAccounts(accounts || []);
+            setCategory(categories || [])
+            setSelectedCategory(categories?.[0] || {})
+
+        } catch (err) {
+            if (err?.from === 'profile') {
                 toast.error('Failed to fetch profile details. Please login again.');
                 router.push('/login');
-            }).finally(() => {
-                setLoading(false);
-            });
+            } else {
+                toast.error(err?.message || 'Something went wrong.');
+            }
+        } finally {
+            setLoading(false);
+        }
     };
-    const getExpenseDetails = async () => {
-        await getExpenseAll()
-            .then((res) => {
-                setRecent(res || [])
+
+    const handleExpense = (data) => {
+        if (!data?.price || isNaN(Number(data.price))) return toast.warning('please add a valid amount')
+        const payload = {
+            isIncome: selectedOptions === 'Expense' ? false : true,
+            ...data,
+            price: Number(data?.price || 0)
+        }
+        createExpenseOrIncome(payload)
+            .then(res => {
+                toast.success('expense added')
+                loadData();
+            }).catch(err => {
+                loadData();
+                toast.error(err?.message || 'Something went wrong.');
             })
-            .catch((err) => {
-                toast.error(err?.message || 'Failed to fetch expense details. ');
-            })
-    };
+    }
+
     React.useEffect(() => {
-        getDetails();
-        getExpenseDetails()
+        loadData()
     }, []);
 
     if (loading) {
@@ -68,13 +97,19 @@ export default function HomePage({
             </header>
 
             {/* Top row: Balance + Quick actions */}
-            <Balance />
+            <Balance
+                accounts={accounts || []} category={category}
+                setSelectedCategory={setSelectedCategory} selectedcategory={selectedcategory}
+                handleExpense={handleExpense}
+                selectedOptions={selectedOptions}
+                setSelectedOptions={setSelectedOptions}
+            />
 
             {/* Middle row: Charts + Subscriptions/Budgets */}
-            <ChartAndSubs currencyList={currencyList} profile={profile} />
+            <ChartAndSubs currencyList={currencyList} profile={profile} accounts={accounts || []} getList={loadData} />
 
             {/* Recent transactions */}
-            <RecentTransaction recent={recent} />
+            <RecentTransaction recent={recent} accounts={accounts || []} />
 
         </div>
     )

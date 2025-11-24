@@ -11,44 +11,31 @@ import { toast } from 'sonner';
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { simpleIconCdn } from '@/lib/utils';
+import { Icon, simpleIconCdn } from '@/lib/utils';
 import Image from 'next/image';
 import { Plus, Minus, ChevronRight, ArrowUp, ArrowDown } from 'lucide-react';
+import { ExpenseDetailsForm } from './ExpenseDetailsForm';
 
 
 const Balance = ({ balance = 1243.72,
   income = 4200.5,
-  expenses = 2956.78, }) => {
+  expenses = 2956.78,
+  accounts, category,
+  selectedcategory, setSelectedCategory, handleExpense, selectedOptions, setSelectedOptions
+}) => {
   const format = (v) => v.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
 
-  const [selectedOptions, setSelectedOptions] = React.useState('')
-  const [category, setCategory] = React.useState([])
-  const [selectedcategory, setSelectedCategory] = React.useState({})
   const [isSheetOpen, setIsSheetOpen] = React.useState(false)
+  const [page, setPage] = React.useState(1)
 
 
   const isMobile = useIsMobile();
 
-  const getCatList = async () => {
-    await getCategoryList()
-      .then(res => {
-        setCategory(res || [])
-        setSelectedCategory(res?.[0] || {})
-      })
-      .catch(err => {
-        toast.error(err?.message || 'something went wrong')
-      })
-  }
 
   const handleCategoryClick = (item) => {
-    console.log(item, 'item')
     setSelectedCategory(item || {})
-
+    setPage(2)
   }
-
-  React.useEffect(() => {
-    getCatList()
-  }, [])
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6" >
@@ -129,7 +116,7 @@ const Balance = ({ balance = 1243.72,
       {/* Quick actions column */}
       <aside
         className="bg-gray-800/80 w-full p-4 rounded-2xl  flex flex-col gap-4 max-w-sm mx-auto md:max-w-full"
-        style={{ background: palettes.dark[800],  }}
+        style={{ background: palettes.dark[800], }}
       >
         <div className="text-xl font-extrabold text-white tracking-wider">Quick Actions</div>
 
@@ -173,7 +160,7 @@ const Balance = ({ balance = 1243.72,
 
       <Sheet
         open={isSheetOpen}
-        onOpenChange={setIsSheetOpen}
+        onOpenChange={() => { setIsSheetOpen(false); setPage(1) }}
       >
         <SheetContent
           side={isMobile ? "bottom" : "right"}
@@ -184,47 +171,51 @@ const Balance = ({ balance = 1243.72,
               {selectedOptions === 'Income' ? 'Enter Details' : 'Add Expense'}
             </h1>
           </SheetHeader>
-          <div className="w-full">
-            <ScrollArea className="h-[calc(100dvh-24rem)] w-full p-4">
-              <div className=" pt-2 space-y-2">
-                <p className="text-sm text-gray-400 mb-4">Select a category to continue:</p>
-                {category.map(category => {
-                  return (
-                    <div
-                      key={category.id}
-                      // onClick={() => onSelectCategory(category)}
-                      className="w-full flex items-center justify-between p-4 bg-gray-700/50 hover:bg-gray-700 rounded-xl transition duration-150"
-                    >
-                      <div className="flex items-center">
-                        <div className={`p-2 rounded-lg bg-gray-800 ${category.color}`}>
-                          <Image
-                            src={simpleIconCdn(category.icon)}
-                            style={{
-                              filter:
-                                "invert(75%) sepia(24%) saturate(1063%) hue-rotate(210deg) brightness(98%) contrast(92%)",
-                            }}
-                            alt={category.icon}
-                            width={28}
-                            height={28}
-                          />
+          {page === 1 ?
+            <div className="w-full">
+              <ScrollArea className="h-[calc(100dvh-24rem)] w-full p-4">
+                <div className=" pt-2 space-y-2">
+                  <p className="text-sm text-gray-400 mb-4">Select a category to continue:</p>
+                  {category.map(category => {
+                    return (
+                      <div
+                        key={category._id}
+                        onClick={() => handleCategoryClick(category)}
+                        className="w-full flex items-center justify-between p-4 bg-gray-700/50 hover:bg-gray-700 rounded-xl transition duration-150"
+                      >
+                        <div className="flex items-center">
+                          <div className={`p-2 rounded-lg bg-gray-800 ${category.color}`}>
+                            <Image
+                              src={simpleIconCdn(category.icon)}
+                              style={{
+                                filter:
+                                  "invert(75%) sepia(24%) saturate(1063%) hue-rotate(210deg) brightness(98%) contrast(92%)",
+                              }}
+                              alt={category.icon}
+                              width={28}
+                              height={28}
+                            />
+                          </div>
+                          <span className="ml-4 text-white font-medium">{category.name}</span>
                         </div>
-                        <span className="ml-4 text-white font-medium">{category.name}</span>
+                        <Image
+                          style={{
+                            color: palettes.primary[400],
+                          }}
+                          width={28}
+                          height={28}
+                          src='/arrow.svg'
+                          alt={'arrow'}
+                        />
                       </div>
-                      <Image
-                        style={{
-                          color: palettes.primary[400],
-                        }}
-                        width={28}
-                        height={28}
-                        src='/arrow.svg'
-                        alt={'arrow'}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            </ScrollArea>
-          </div>
+                    );
+                  })}
+                </div>
+              </ScrollArea>
+            </div>
+            :
+            <ExpenseDetailsForm category={selectedcategory} accounts={accounts} onSave={handleExpense} />
+          }
         </SheetContent>
       </Sheet>
     </section >

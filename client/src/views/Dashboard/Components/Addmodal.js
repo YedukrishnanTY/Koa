@@ -5,9 +5,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Select, SelectContent, SelectGroup, SelectLabel, SelectTrigger, SelectValue, SelectItem } from "@/components/ui/select";
 import { palettes } from "@/common/palettes";
-import { SelectIcon } from "@radix-ui/react-select";
 import { Icon } from "@/lib/utils";
-
 
 export default function AddModal({ isOpen, onClose, onSave, currencyList, profile, editDetails, handleDelete }) {
     const [name, setName] = React.useState("");
@@ -70,7 +68,14 @@ export default function AddModal({ isOpen, onClose, onSave, currencyList, profil
                 <DialogHeader>
                     {/* Dynamic Title based on mode */}
                     <DialogTitle className="text-2xl font-bold text-primary-400">
-                        {isEditMode ? "Edit Account Details" : "Create New Account"}
+                        {isEditMode ? (
+                            <DialogTitle className="text-2xl font-bold text-primary-400">
+                                Edit Account Details
+                            </DialogTitle>
+                        ) : (
+                            // Hidden title for accessibility
+                            <DialogTitle>Create New Account</DialogTitle>
+                        )}
                     </DialogTitle>
                 </DialogHeader>
 
@@ -90,7 +95,7 @@ export default function AddModal({ isOpen, onClose, onSave, currencyList, profil
                         />
                         {isEditMode && (
                             <p className="text-xs text-red-400 mt-1">
-                                Note: Account name cannot be changed in edit mode.
+                                Note: Account name cannot be changed
                             </p>
                         )}
                     </div>
@@ -164,7 +169,7 @@ export default function AddModal({ isOpen, onClose, onSave, currencyList, profil
                     </div>
 
                     {/* Footer Buttons */}
-                    <DialogFooter className="flex flex-col sm:flex-row sm:justify-between pt-6">
+                    <DialogFooter className="flex flex-col sm:flex-row sm:justify-between pt-6 gap-2 w-full">
                         {/* Delete Button (Only in Edit Mode) */}
                         {isEditMode && (
                             <Button
@@ -180,29 +185,33 @@ export default function AddModal({ isOpen, onClose, onSave, currencyList, profil
                             </Button>
                         )}
 
-                        <div className={`flex space-x-3 ${isEditMode ? 'order-1 sm:order-2 ml-auto' : 'w-full justify-end'}`}>
+                        <div
+                            className={`flex flex-col  gap-2  sm:flex-row sm:space-y-0 sm:space-x-3
+                                  ${isEditMode ? 'sm:order-2 sm:ml-auto' : 'w-full sm:justify-end'} w-full justify-end`}
+                        >
                             {/* Cancel Button */}
                             <Button
                                 type="button"
                                 variant="secondary"
-                                onClick={() => onClose()}
-                                className="bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold transition-all duration-200"
+                                onClick={onClose}
+                                className="bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold transition-all duration-200 w-full sm:w-auto"
                             >
                                 Cancel
                             </Button>
 
-                            {/* Save Button (Primary) */}
+                            {/* Save Button */}
                             <Button
                                 style={{
                                     backgroundColor: palettes.primary[400],
                                     color: palettes.slate[100],
                                 }}
                                 type="submit"
-                                className="bg-primary-500 hover:bg-primary-600 text-white font-semibold shadow-lg shadow-primary-500/30 transition-all duration-200"
+                                className="bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold transition-all duration-200 w-full sm:w-auto"
                             >
                                 {isEditMode ? "Update Account" : "Save Account"}
                             </Button>
                         </div>
+
                     </DialogFooter>
                     <div className="p-4 bg-gray-800 rounded-xl border border-primary-500/50 shadow-inner">
                         <h3 className="text-lg font-semibold text-gray-300 mb-3 border-b border-gray-700 pb-2">Account Preview</h3>

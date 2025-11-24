@@ -16,3 +16,19 @@ export const getExpenseAll = async () => {
         throw error;
     }
 }
+
+export const createExpenseOrIncome = async (payload) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/expense/create`, {
+            method: 'POST',
+            headers: getHeaders(),
+            credentials: 'include',
+            body: JSON.stringify(payload)
+        });
+        const result = handleResponse(response);
+        return result;
+    } catch (error) {
+        console.error('Failed to fetch', error);
+        throw error;
+    }
+}

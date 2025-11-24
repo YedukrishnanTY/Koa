@@ -29,20 +29,11 @@ const balanceData = [
 
 
 
-function ChartAndSubs({ currencyList, profile }) {
-    const [accounts, setAccounts] = React.useState([]);
+function ChartAndSubs({ currencyList, profile, accounts, getList }) {
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
     const [editDetails, setEditDetails] = React.useState({});
 
-    const getList = async () => {
-        await getAccountslist()
-            .then(res => {
-                setAccounts(res || [])
-            })
-            .catch(err => {
-                toast.error(err?.message || 'failed to fetch')
-            })
-    }
+
     const handleOpenModal = (account, type) => {
         if (type !== 'edit') {
             setEditDetails({})
@@ -88,9 +79,6 @@ function ChartAndSubs({ currencyList, profile }) {
             toast.error('failed to delete your account')
         }
     };
-    React.useEffect(() => {
-        getList();
-    }, [])
 
     const format = (v) => v.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
     return (

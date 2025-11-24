@@ -5,6 +5,7 @@ import {
     HttpCode,
     HttpException,
     HttpStatus,
+    Post,
     UseGuards,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -45,9 +46,9 @@ export class ExpenseController {
 
     // GET /expense/all
     @UseGuards(AuthGuard('jwt'))
-    @Get('/Create')
+    @Post('/create')
     @HttpCode(HttpStatus.OK)
-    async createExpense(@Headers() headers: Record<string, any>, @Body() body: { accountId: string, price: number } & Record<string, any>) {
+    async createExpense(@Headers() headers: Record<string, any>, @Body() body: { accountId: string, price: number, isIncome: boolean } & Record<string, any>) {
         const username = this.tokenService.getUsernameFromHeaders(headers);
         const expensePayload = { ...body, username };
         const created = await this.ExpenseService.createExpense(expensePayload);

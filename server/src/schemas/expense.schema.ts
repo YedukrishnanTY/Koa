@@ -5,16 +5,16 @@ export type ExpenseDocument = HydratedDocument<Expense>;
 
 @Schema({ timestamps: true })
 export class Expense {
-    @Prop({ required: true })
-    category_id: string;
+    @Prop({ required: true, unique: false })
+    categoryId: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true, unique: false })
     categoryName: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true, unique: false })
     accountId: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true, unique: false })
     accountName: string;
 
     @Prop({ required: true })
@@ -26,7 +26,7 @@ export class Expense {
     @Prop({ default: false })
     isIncome: boolean;
 
-    @Prop({ required: true })
+    @Prop({ required: true, unique: false })
     username: string;
 
     @Prop({ required: false })
@@ -35,3 +35,4 @@ export class Expense {
 
 
 export const ExpenseSchema = SchemaFactory.createForClass(Expense);
+
