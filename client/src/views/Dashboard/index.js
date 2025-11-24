@@ -109,7 +109,7 @@ export default function HomePage({
             <ChartAndSubs currencyList={currencyList} profile={profile} accounts={accounts || []} getList={loadData} />
 
             {/* Recent transactions */}
-            <RecentTransaction recent={recent} accounts={accounts || []} />
+            <RecentTransaction recent={recent} accounts={accounts || []} category={category} />
 
         </div>
     )
