@@ -22,6 +22,9 @@ export class Account {
 
     @Prop({ default: false })
     isDeleted: boolean;
+
+    @Prop({ required: false, default: 0 })
+    expenseAmount: number;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account); 
