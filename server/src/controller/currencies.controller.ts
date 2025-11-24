@@ -9,7 +9,7 @@ import {
     HttpCode,
     HttpStatus,
 } from '@nestjs/common';
-import { CurrenciesService } from 'src/service/currencies.service';
+import { CurrenciesService } from '../service/currencies.service';
 
 @Controller('Currencies')
 export class CurrenciesController {

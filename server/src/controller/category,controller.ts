@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { Roles } from "src/roles/roles.decorator";
-import { RolesGuard } from "src/roles/roles.guard";
-import { CategoryService } from "src/service/category.service";
+import { Roles } from "../roles/roles.decorator";
+import { RolesGuard } from "../roles/roles.guard";
+import { CategoryService } from "../service/category.service";
 
 @Controller('categories')
 export class CategoryController {

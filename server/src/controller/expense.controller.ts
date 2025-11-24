@@ -9,10 +9,10 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
-import { Roles } from 'src/roles/roles.decorator';
-import { RolesGuard } from 'src/roles/roles.guard';
-import { ExpenseService } from 'src/service/expense.service';
-import { TokenService } from 'src/service/token.services';
+import { Roles } from '../roles/roles.decorator';
+import { RolesGuard } from '../roles/roles.guard';
+import { ExpenseService } from '../service/expense.service';
+import { TokenService } from '../service/token.services';
 
 @Controller('expense')
 export class ExpenseController {

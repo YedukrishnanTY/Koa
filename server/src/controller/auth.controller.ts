@@ -11,13 +11,12 @@ import {
     Headers,
     UseGuards
 } from '@nestjs/common';
-import { AuthService } from 'src/service/auth.service';
-import { Auth } from "src/schemas/auth.schemas";
+import { AuthService } from '../service/auth.service';
+import { Auth } from "../schemas/auth.schemas";
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'src/roles/roles.guard';
-import { Roles } from 'src/roles/roles.decorator';
-import { TokenService } from 'src/service/token.services';
+import { RolesGuard } from '../roles/roles.guard';
+import { TokenService } from '../service/token.services';
 
 @Controller('users')
 export class AuthController {
