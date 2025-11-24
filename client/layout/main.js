@@ -1,19 +1,17 @@
-'use client'    
+'use client'
 import React from 'react'
 import Header from './Header'
 import Toaster from './Toaster'
 import Interceptor from '../common/interceptor'
 
-Interceptor()
-function Main({ props, children }) {
+function Main({ children }) {
 
     return (
-        <div style={{ display: 'flex',flex :'1 0 0' ,flexDirection:'column' }}>
-            {/* <SidebarProvider> */}
-                <Header />
-                <div>{children}</div>
-                <Toaster />
-            {/* </SidebarProvider> */}
+        <div style={{ display: 'flex', flex: '1 0 0', flexDirection: 'column' }}>
+            <Interceptor />   {/* run only on client */}
+            <Header />
+            <div>{children}</div>
+            <Toaster />
         </div>
     )
 }
