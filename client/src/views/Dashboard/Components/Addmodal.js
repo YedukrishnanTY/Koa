@@ -61,6 +61,16 @@ export default function AddModal({ isOpen, onClose, onSave, currencyList, profil
 
     const isEditMode = !!editDetails?._id;
 
+    const reorderedCurrencies = React.useMemo(() => {
+        const userCurrency = 'INR'
+        const found = currencyList.find(c => c.code === userCurrency);
+        if (!found) return currencyList;
+
+        return [
+            found,
+            ...currencyList.filter(c => c.code !== userCurrency)
+        ];
+    }, [currencyList, userCurrency]);
     return (
         <Dialog open={isOpen} onOpenChange={handleOpenChange}>
             {/* Darker background and rounded corners for the dialog content */}
@@ -131,7 +141,7 @@ export default function AddModal({ isOpen, onClose, onSave, currencyList, profil
                                 <SelectContent className='w-full bg-gray-800 border-gray-700 text-white'>
                                     <SelectGroup>
                                         <SelectLabel className="text-primary-400">Available Currencies</SelectLabel>
-                                        {currencyList.map((currency) => (
+                                        {reorderedCurrencies.map((currency) => (
                                             <SelectItem key={currency.code} value={currency.code} className="hover:bg-gray-700 cursor-pointer">
                                                 {currency.name} ({currency.code})
                                             </SelectItem>

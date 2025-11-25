@@ -75,8 +75,8 @@ const Balance = ({
                 <ArrowDown className="w-5 h-5" style={{ color: palettes.red[500] }} />
                 <div>
                   <div className="text-xs text-gray-400 uppercase tracking-wider">Expenses</div>
-                  {Object.entries(accountDetails?.totalExpenseByCurrencyTransactions || {})?.length > 0 ?
-                    Object.entries(accountDetails?.totalExpenseByCurrencyTransactions || {}).map?.((value, item) => (
+                  {Object.entries(accountDetails?.totalExpenseByCurrencyFromAccounts || {})?.length > 0 ?
+                    Object.entries(accountDetails?.totalExpenseByCurrencyFromAccounts || {}).map?.((value, item) => (
                       <h1 key={item} className="font-semibold text-lg" style={{ color: palettes.red[500] }}>
                         {formattedBalance(value?.[1], value?.[0])}
                       </h1>

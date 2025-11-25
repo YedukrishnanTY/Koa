@@ -204,16 +204,6 @@ export class AccountController {
             monthlyExpenseByCurrency[currency] = monthKeys.map(k => Number(byCurrencyAndMonthExpense[currency]?.[k] || 0));
         }
 
-        // --- Totals from transactions ---
-        const totalIncomeByCurrencyTransactions: Record<string, number> = {};
-        const totalExpenseByCurrencyTransactions: Record<string, number> = {};
-        for (const currency of Object.keys(monthlyIncomeByCurrency)) {
-            totalIncomeByCurrencyTransactions[currency] = monthlyIncomeByCurrency[currency].reduce((s, v) => s + v, 0);
-        }
-        for (const currency of Object.keys(monthlyExpenseByCurrency)) {
-            totalExpenseByCurrencyTransactions[currency] = monthlyExpenseByCurrency[currency].reduce((s, v) => s + v, 0);
-        }
-
         // --- Optional: income derived from accounts (income = balance + expenseAmount) as fallback/extra ---
         const totalIncomeByCurrencyFromAccounts: Record<string, number> = {};
         for (const acc of accountDetails) {
@@ -223,6 +213,15 @@ export class AccountController {
             const balance = Number(a?.balance ?? 0);
             const spent = Number(a?.expenseAmount ?? 0);
             totalIncomeByCurrencyFromAccounts[cur] = (totalIncomeByCurrencyFromAccounts[cur] || 0) + (isNaN(balance + spent) ? 0 : (balance + spent));
+        }
+
+        const totalExpenseByCurrencyFromAccounts: Record<string, number> = {};
+        for (const acc of accountDetails) {
+            const a: any = acc?.[0] ?? acc;
+            if (!a) continue;
+            const cur = a.currency ?? 'UNKNOWN';
+            const spent = Number(a?.expenseAmount ?? 0);
+            totalExpenseByCurrencyFromAccounts[cur] = (totalExpenseByCurrencyFromAccounts[cur] || 0) + (isNaN(spent) ? 0 : (spent));
         }
 
         // --- Prepare chart-friendly datasets: we provide datasets for income and expense per currency ---
@@ -246,9 +245,8 @@ export class AccountController {
             chartData,         // labels: human labels; datasets: income & expense datasets per currency
             monthlyIncomeByCurrency,   // { "AED": [..], "USD": [..] } aligned with months
             monthlyExpenseByCurrency,  // { "AED": [..], "USD": [..] } aligned with months
-            totalIncomeByCurrencyTransactions, // totals computed from expense docs where isIncome === true
-            totalExpenseByCurrencyTransactions, // totals computed from expense docs where isIncome === false
-            totalIncomeByCurrencyFromAccounts   // optional fallback: income inferred from account balances
+            totalIncomeByCurrencyFromAccounts,  // optional fallback: income inferred from account balances
+            totalExpenseByCurrencyFromAccounts
         };
     }
 
