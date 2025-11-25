@@ -153,11 +153,13 @@ const Balance = ({
           {/* Add Expense Button (Themed Red for outflow) */}
           <Button
             onClick={() => { setSelectedOptions('Expense'); setIsSheetOpen(true) }}
-            className="flex items-center justify-between p-6 shadow-lg   transition-all duration-300"
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = palettes.dark[700]}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = palettes.dark[900]}
+            className="flex items-center justify-between p-6 shadow-lg transition-all duration-300"
             style={{
-              backgroundColor: palettes.dark[800],
+              backgroundColor: '#272d37',
               color: palettes.red[500],
-              border: `2px solid ${palettes.red[500]}`,
+              // border: `2px solid ${palettes.red[500]}`,
             }}
           >
             <div className="flex items-center gap-3">
@@ -170,11 +172,13 @@ const Balance = ({
           {/* Add Income Button (Themed Green for inflow) */}
           <Button
             onClick={() => { setSelectedOptions('Income'); setIsSheetOpen(true) }}
-            className="flex items-center justify-between p-6 shadow-lg  transition-all duration-300"
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = palettes.dark[700]}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = palettes.dark[900]}
+            className={`flex items-center justify-between p-6 shadow-lg  transition-all duration-300`}
             style={{
-              backgroundColor: palettes.dark[800],
+              backgroundColor: palettes.dark[900],
               color: palettes.green[500],
-              border: `2px solid ${palettes.green[500]}`,
+              // border: `2px solid ${palettes.green[500]}`,
             }}
           >
             <div className="flex items-center gap-3">

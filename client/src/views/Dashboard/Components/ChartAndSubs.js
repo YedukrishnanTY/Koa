@@ -47,7 +47,12 @@ function buildRechartsDataFromChartData(chartData) {
         }
         return obj;
     });
-
+    if (points.length === 1) {
+        points.push({ name: "" });
+        points.push({ name: "" });
+    } else if (points.length === 2) {
+        points.push({ name: "" });
+    }
     const series = datasets.map(ds => ({
         key: sanitizeKey(ds.label),
         label: ds.label,

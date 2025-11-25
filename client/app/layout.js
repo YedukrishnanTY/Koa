@@ -22,11 +22,11 @@ export const metadata = {
   openGraph: {
     title: "FinX - Expense Tracker",
     description: "Easily track, manage, and visualize your personal finances with Flow. Achieve financial clarity today.",
-    url: "YOUR_APP_URL_HERE", // Replace with your app's actual URL
+    url: "/logo2.png", // Replace with your app's actual URL
     siteName: "FinX",
     images: [
       {
-        url: "/logo1.png", // Path to your 1200x630px social preview image
+        url: "/logo2.png", // Path to your 1200x630px social preview image
         width: 1200,
         height: 630,
         alt: "FinX Expense Tracker App Dashboard Screenshot",
