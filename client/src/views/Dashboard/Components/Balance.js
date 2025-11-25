@@ -142,7 +142,7 @@ const Balance = ({
 
 
       {/* Quick actions column       */}
-      <aside
+      <div
         className="bg-gray-800/80 w-full p-4 rounded-2xl  flex flex-col gap-4 max-w-sm mx-auto md:max-w-full shadow-2xl border border-gray-700/50"
         style={{ background: palettes.dark[800], }}
       >
@@ -157,7 +157,7 @@ const Balance = ({
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = palettes.dark[900]}
             className="flex items-center justify-between p-6 shadow-lg transition-all duration-300"
             style={{
-              backgroundColor: palettes.dark[700],
+              backgroundColor: palettes.dark[900],
               color: palettes.red[500],
               // border: `2px solid ${palettes.red[500]}`,
             }}
@@ -176,7 +176,7 @@ const Balance = ({
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = palettes.dark[900]}
             className={`flex items-center justify-between p-6 shadow-lg  transition-all duration-300`}
             style={{
-              backgroundColor: palettes.dark[700],
+              backgroundColor: palettes.dark[900],
               color: palettes.green[500],
               // border: `2px solid ${palettes.green[500]}`,
             }}
@@ -188,7 +188,7 @@ const Balance = ({
             <ChevronRight className="w-5 h-5 text-green-500" />
           </Button>
         </div>
-      </aside>
+      </div>
 
       <Sheet
         open={isSheetOpen}
