@@ -147,7 +147,7 @@ export default function LandingPage({ }) {
               <span className="text-2xl font-extrabold flex-shrink-0" style={{ color: palettes.primary[400] }}>02</span>
               <div>
                 <strong className="font-semibold text-white">Log your first expense.</strong>
-                <p className="text-sm text-gray-400">Quick-add expenses or utilize advanced features like receipt scanning and bank import (if supported).</p>
+                <p className="text-sm text-gray-400">Quick-add expenses.</p>
               </div>
             </li>
             {/* Step 3 */}
@@ -155,7 +155,7 @@ export default function LandingPage({ }) {
               <span className="text-2xl font-extrabold flex-shrink-0" style={{ color: palettes.primary[400] }}>03</span>
               <div>
                 <strong className="font-semibold text-white">Track, organize, and gain insights.</strong>
-                <p className="text-sm text-gray-400">Organize with budgets and tags, then view clear, interactive charts in your personal dashboard.</p>
+                <p className="text-sm text-gray-400">Organize with Accounts, then view clear, interactive charts in your personal dashboard.</p>
               </div>
             </li>
           </ol>
