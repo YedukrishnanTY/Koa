@@ -246,7 +246,11 @@ const Balance = ({
               </ScrollArea>
             </div>
             :
-            <ExpenseDetailsForm category={selectedcategory} accounts={accounts} onSave={handleExpense} buttonDisabled={buttonDisabled} />
+            <ExpenseDetailsForm
+              category={selectedcategory} accounts={accounts}
+              onSave={handleExpense} buttonDisabled={buttonDisabled} selectedOptions={selectedOptions}
+              setPage={setPage}
+            />
           }
         </SheetContent>
       </Sheet>

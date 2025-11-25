@@ -1,10 +1,11 @@
+import { Button } from "@/components/ui/button";
 import { simpleIconCdn } from "@/lib/utils";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Edit, Edit2 } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
 
-export const ExpenseDetailsForm = ({ category, buttonDisabled, onSave, accounts }) => {
+export const ExpenseDetailsForm = ({ category, buttonDisabled, onSave, accounts, selectedOptions, setPage }) => {
     const [expenseData, setExpenseData] = React.useState({
         categoryId: category?._id,
         categoryName: category?.name,
@@ -44,18 +45,28 @@ export const ExpenseDetailsForm = ({ category, buttonDisabled, onSave, accounts 
 
     return (
         <div className="p-6 h-full flex flex-col">
-            <div className={`text-sm font-semibold mb-6 flex items-center p-3 rounded-xl bg-gray-700 flex gap-2`}>
-                <Image
-                    src={simpleIconCdn(category.icon)}
-                    style={{
-                        filter:
-                            "invert(75%) sepia(24%) saturate(1063%) hue-rotate(210deg) brightness(98%) contrast(92%)",
-                    }}
-                    alt={category.icon}
-                    width={28}
-                    height={28}
-                />
-                <span className="ml-2 text-white font-bold">{category?.name}</span>
+
+            <div className={`text-sm font-semibold mb-6 flex items-center p-3 rounded-xl bg-gray-700 flex gap-2 justify-between`}>
+                <div className="flex gap-2 align-center items-center">
+                    <Image
+                        src={simpleIconCdn(category.icon)}
+                        style={{
+                            filter:
+                                "invert(75%) sepia(24%) saturate(1063%) hue-rotate(210deg) brightness(98%) contrast(92%)",
+                        }}
+                        alt={category.icon}
+                        width={28}
+                        height={28}
+                    />
+                    <span className="ml-2 text-white font-bold">{category?.name}</span>
+                </div>
+                <div
+                    className="ml-2 text-white cursor-pointer"
+                    style={{ fontSize: '12px', font: 'caption' }}
+                    onClick={() => { setPage(1) }}
+                >
+                    <Edit2 size={12} />
+                </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4 flex-grow">
@@ -66,7 +77,7 @@ export const ExpenseDetailsForm = ({ category, buttonDisabled, onSave, accounts 
                         <select
                             id="accountId"
                             name="accountId"
-                            value={tempcat}   // <-- FIXED
+                            value={tempcat}
                             onChange={handleChange}
                             className="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-indigo-500 focus:border-indigo-500 appearance-none transition"
                         >
@@ -76,10 +87,14 @@ export const ExpenseDetailsForm = ({ category, buttonDisabled, onSave, accounts 
                                 </option>
                             ))}
                         </select>
-
                         <ChevronRight className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2 rotate-90 pointer-events-none" />
                     </div>
                 </div>
+                {accounts.length === 0 ? (
+                    <p className="text-sm text-red-400 bg-red-900/20 p-3 rounded-lg mb-2">
+                        Please add an account in the dashboard before adding an expense or income.
+                    </p>
+                ) : null}
 
                 {/* Price and Currency */}
                 <div className="flex space-x-4">
@@ -134,12 +149,12 @@ export const ExpenseDetailsForm = ({ category, buttonDisabled, onSave, accounts 
             {/* Save Button */}
             <div className="mt-6">
                 <button
-                    disabled={buttonDisabled || false}
+                    disabled={(buttonDisabled || accounts.length === 0) || false}
                     type="submit"
                     onClick={handleSubmit}
                     className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-500/50"
                 >
-                    Save Expense
+                    Save {selectedOptions}
                 </button>
             </div>
         </div>

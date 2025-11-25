@@ -148,6 +148,30 @@ export default function ChartAndSubs({
 
     return (
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
+
+            {/* Accounts List Card */}
+            <div className="rounded-2xl p-5 shadow-2xl border border-gray-700/50" style={{ backgroundColor: palettes.dark[800] }}>
+                <h4 className="font-extrabold text-xl text-white mb-4">Your Accounts</h4>
+
+                <ScrollArea className="space-y-2 pr-1" style={{ maxHeight: '300px' }}>
+                    {accounts.map((account) => (
+                        <AccountItem key={account._id} account={account} onClick={handleOpenModal} />
+                    ))}
+                </ScrollArea>
+
+                <AddAccountItem onClick={handleOpenModal} currencyList={currencyList} profile={profile} buttonDisabled={buttonDisabled} />
+
+                <Addmodal
+                    isOpen={isDialogOpen}
+                    onClose={() => setIsDialogOpen(false)}
+                    currencyList={currencyList}
+                    profile={profile}
+                    onSave={handleAddAccount}
+                    editDetails={editDetails}
+                    handleDelete={handleDelete}
+                    buttonDisabled={buttonDisabled}
+                />
+            </div>
             {/* Chart Card */}
             <div className="lg:col-span-2 rounded-2xl p-5 shadow-2xl border border-gray-700/50" style={{ backgroundColor: palettes.dark[800] }}>
                 <div className="flex items-center justify-between mb-4 flex-wrap">
@@ -338,29 +362,6 @@ export default function ChartAndSubs({
                 </div> */}
             </div>
 
-            {/* Accounts List Card */}
-            <div className="rounded-2xl p-5 shadow-2xl border border-gray-700/50" style={{ backgroundColor: palettes.dark[800] }}>
-                <h4 className="font-extrabold text-xl text-white mb-4">Your Accounts</h4>
-
-                <ScrollArea className="space-y-2 pr-1" style={{ maxHeight: '300px' }}>
-                    {accounts.map((account) => (
-                        <AccountItem key={account._id} account={account} onClick={handleOpenModal} />
-                    ))}
-                </ScrollArea>
-
-                <AddAccountItem onClick={handleOpenModal} currencyList={currencyList} profile={profile} buttonDisabled={buttonDisabled} />
-
-                <Addmodal
-                    isOpen={isDialogOpen}
-                    onClose={() => setIsDialogOpen(false)}
-                    currencyList={currencyList}
-                    profile={profile}
-                    onSave={handleAddAccount}
-                    editDetails={editDetails}
-                    handleDelete={handleDelete}
-                    buttonDisabled={buttonDisabled}
-                />
-            </div>
         </section>
     );
 }

@@ -89,16 +89,17 @@ function Register({ currencyList = [] }) {
                                         style={{ background: palettes.dark[800], color: palettes.light[50] }}>
                                         <SelectValue placeholder="Select Currency" />
                                     </SelectTrigger>
-                                    <SelectContent className='w-full'>
+                                    <SelectContent className='w-full bg-gray-800 border-gray-700 text-white'>
                                         <SelectGroup>
                                             <SelectLabel>Currency</SelectLabel>
                                             {currencyList.map((currency) => (
                                                 <SelectItem key={currency.code} value={currency.code}>
-                                                    {currency.name} ({currency.code})
+                                                    {currency.code} ({currency.name})
                                                 </SelectItem>
                                             ))}
                                         </SelectGroup>
                                     </SelectContent>
+
                                 </Select>
                             </div>
                             <div className='flex items-center justify-between'>
