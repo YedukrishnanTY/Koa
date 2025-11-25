@@ -7,17 +7,13 @@ import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation'
 import React from 'react'
 
-function Header() {
+function Header({ promptEvent,  handleInstallClick }) {
     const router = useRouter();
     const path = usePathname()
     const [loading, setLoading] = React.useState(false);
     const [profile, setProfile] = React.useState(null);
-    const [promptEvent, setPromptEvent] = React.useState(null);
-    React.useEffect(() => {
-        const handler = (e) => { e.preventDefault(); setPromptEvent(e); };
-        window.addEventListener('beforeinstallprompt', handler);
-        return () => window.removeEventListener('beforeinstallprompt', handler);
-    }, []);
+
+
 
 
 
@@ -54,6 +50,7 @@ function Header() {
             handleLogo()
     }, [path])
 
+
     return (
         <div className='flex items-center justify-between px-2 py-2 sm:flex-row'>
             <Image src="/logo2.png" onClick={() => { handleLogo() }} alt="logo2" width={60} height={40} className='cursor-pointer' />
@@ -77,9 +74,11 @@ function Header() {
                 style={{
                     background: palettes?.primary[400]
                 }} variant='primary' className='font-bold'
-                onClick={() => { promptEvent.prompt(); promptEvent.userChoice.then(() => setPromptEvent(null)); }}>
+                onClick={handleInstallClick}>
                 Install FinX
             </Button> : <></>}
+
+          
         </div>
     )
 }
@@ -104,18 +103,6 @@ const ProfileDropdown = ({ profile, onLogout, onCurrencyChange }) => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [dropdownRef]);
 
-    // Filter currencies based on search term
-    const MOCK_CURRENCIES = []
-    const filteredCurrencies = MOCK_CURRENCIES.filter(currency =>
-        currency.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        currency.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    const handleSelectCurrency = (currencyCode) => {
-        onCurrencyChange(currencyCode);
-        setSearchTerm('');
-        setIsOpen(false);
-    };
     const User = (props) => (
         <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
