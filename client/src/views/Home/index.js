@@ -170,7 +170,7 @@ export default function LandingPage({ }) {
         }}>
           <div className="text-center md:text-left">
             <div className="text-2xl font-extrabold">Ready to take control of your financial life?</div>
-            <div className="text-md mt-2 font-medium">Join thousands of users simplifying their expense tracking today.</div>
+            <div className="text-md mt-2 font-medium">Join now.</div>
           </div>
           <div className="mt-6 md:mt-0 flex-shrink-0">
             <Button style={{
