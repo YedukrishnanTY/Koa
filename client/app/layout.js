@@ -55,7 +55,8 @@ export default function RootLayout({ children, ...props }) {
         <link rel="icon" href="/logo2.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <link rel="apple-touch-icon" href="/logo2.png" />
+        <link rel="apple-touch-icon" href="/logo3.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/logo3.png" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
