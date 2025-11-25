@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { simpleIconCdn } from "@/lib/utils";
 import { ChevronRight, Edit, Edit2 } from "lucide-react";
 import Image from "next/image";
@@ -74,20 +75,34 @@ export const ExpenseDetailsForm = ({ category, buttonDisabled, onSave, accounts,
                 <div>
                     <label htmlFor="accountId" className="block text-sm font-medium text-gray-400 mb-1">Account</label>
                     <div className="relative">
-                        <select
-                            id="accountId"
-                            name="accountId"
+                        <Select
                             value={tempcat}
-                            onChange={handleChange}
-                            className="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-indigo-500 focus:border-indigo-500 appearance-none transition"
+                            onValueChange={(val) => {
+                                handleChange({
+                                    target: { name: "accountId", value: val }
+                                });
+                            }}
                         >
-                            {accounts.map(account => (
-                                <option key={account._id} value={JSON.stringify(account)}>
-                                    {account.accountName}
-                                </option>
-                            ))}
-                        </select>
-                        <ChevronRight className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2 rotate-90 pointer-events-none" />
+                            <SelectTrigger
+                                className="w-full p-3 rounded-xl bg-gray-700 border border-gray-600 text-white"
+                            >
+                                <SelectValue placeholder="Select Account" />
+                            </SelectTrigger>
+                            <SelectContent className="w-full bg-gray-800 border-gray-700 text-white">
+                                <SelectGroup>
+                                    <SelectLabel>Accounts</SelectLabel>
+                                    {accounts.map((account) => (
+                                        <SelectItem
+                                            key={account._id}
+                                            value={JSON.stringify(account)}
+                                        >
+                                            {account.accountName}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+
                     </div>
                 </div>
                 {accounts.length === 0 ? (
